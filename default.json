@@ -1,0 +1,19 @@
+{
+  "config": "debug",
+  "host": "0.0.0.0",
+  "port": "8081",
+  "hostname": "http://localhost:8081/",
+
+  "apiConfig": {
+    "hostname": "http://localhost:8080",
+    "version": "v1.0",
+
+    "authorization": {
+      "clientId": "epoll-web"
+    },
+
+    "facebook": {
+      "appId": ""
+    }
+  }
+}

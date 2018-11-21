@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+html(lang='ro')
+  head
+    base(href='/')
+    title E Poll
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(name='description' content='')
+    meta(name='robots' content='noindex')
+    meta(name='googlebot' content='noindex')
+
+    //- favicons
+    //- link(rel='icon' sizes='180x180' href='/apple-touch-icon.png?v=EvrbMz9ptL4K')
+    //- link(rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png?v=EvrbMz9ptL4K')
+    //- link(rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png?v=EvrbMz9ptL4K')
+    //- link(rel='manifest' href='/manifest.json?v=EvrbMz9ptL4K')
+    //- link(rel='mask-icon' href='/safari-pinned-tab.svg?v=EvrbMz9ptL4K' color='#5bbad5')
+    //- link(rel='shortcut icon' href='/favicon.ico?v=EvrbMz9ptL4K')
+    //- meta(name='theme-color' content='#ffffff')
+
+    //- load third-party stylesheets
+    link(rel='stylesheet' href='/bootstrap/dist/css/bootstrap.min.css')
+
+    //- load out css bundle
+    link(rel='stylesheet' href='/epoll.bundle.min.css')
+
+    //- loading screen style
+    style.
+      html, body {
+        min-width: 100%;
+        min-height: 100vh;
+      }
+
+      body {
+        background-color: #FCFCFC;
+        color: #353c4e;
+      }
+
+      .loading-screen {
+        min-width: 100%;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      .loading-screen-logo {
+        width: 15rem;
+        height: 15rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+  body
+    //- fix `module is not defined` error
+    script window.module = {};
+
+    epoll
+      div.loading-screen
+        img.loading-screen-logo(src='/assets/logo-spin.svg' alt='loading image')
+
+    //- polyfill(s) for older browsers
+    script(src='/core-js/client/shim.min.js')
+    script(src='/intl/dist/Intl.min.js')
+    script(src='/classlist.js/classList.min.js')
+    script(src='/web-animations-js/web-animations.min.js')
+    script(src='/zone.js/dist/zone.min.js')
+    script(src='/reflect-metadata/Reflect.js')
+
+    //- load libraries
+    script(defer, src='/store/dist/store.modern.min.js')
+    script(defer, src='https://sdk.accountkit.com/ro_RO/sdk.js')
+
+    //- load application
+    script(defer, src='main.bundle.min.js')
+
+    //- script(src='moment/locale/ro.js')
+    //- Google Analytics code
+    //- script.
+    //-   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    //-   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    //-   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    //-   })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    //-   ga('create', 'UA-101727060-2', 'auto');
+    //-   ga('send', 'pageview');
+

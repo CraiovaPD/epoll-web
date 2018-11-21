@@ -1,0 +1,48 @@
+.toast-container
+  position: fixed
+  box-sizing: border-box
+  bottom: 1rem
+  right: 1rem
+  width: 20rem
+  z-index: 99999
+
+.toast
+  background-color: #1e1e1e
+  margin-top: .5rem
+  padding: 2rem
+  min-height: 5rem
+  color: white
+  opacity: .9
+  border-left: .5rem solid black
+
+.toast.success
+  border-left: .5rem solid #23963e
+
+.toast.warning
+  border-left: .5rem solid #ebb000
+
+.toast.danger
+  border-left: .5rem solid #d12434
+
+@media all and (max-width: 576px)
+  .toast-container
+    width: 100%
+    bottom 3rem
+    right: 0
+
+  .toast
+    margin-top: 0
+    padding: 1rem
+    min-height: 2rem
+
+  .toast.success
+    border-left: none
+    border-top: .3rem solid #23963e
+
+  .toast.warning
+    border-left: none
+    border-top: .3rem solid #ebb000
+
+  .toast.danger
+    border-left: none
+    border-top: .3rem solid #d12434

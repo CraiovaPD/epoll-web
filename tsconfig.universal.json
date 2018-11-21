@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "sourceMap": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+    // "outDir": "build/universal/"
+  },
+
+  "include": [
+    "pre-build/client/app.server.module.ts"
+  ],
+
+  "angularCompilerOptions": {
+    "entryModule": "pre-build/client/app.server.module#AppServerModule"
+  }
+}

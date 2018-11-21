@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+html(lang='ro')
+  head
+    base(href='/')
+    title E Poll
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1')
+    meta(name='description' content='')
+    meta(name='robots' content='noindex')
+    meta(name='googlebot' content='noindex')
+
+    //- favicons
+    //- link(rel='icon' sizes='180x180' href='/apple-touch-icon.png?v=EvrbMz9ptL4K')
+    //- link(rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png?v=EvrbMz9ptL4K')
+    //- link(rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png?v=EvrbMz9ptL4K')
+    //- link(rel='manifest' href='/manifest.json?v=EvrbMz9ptL4K')
+    //- link(rel='mask-icon' href='/safari-pinned-tab.svg?v=EvrbMz9ptL4K' color='#5bbad5')
+    //- link(rel='shortcut icon' href='/favicon.ico?v=EvrbMz9ptL4K')
+    //- meta(name='theme-color' content='#ffffff')
+
+    //- load third-party stylesheets
+    link(rel='stylesheet' href='/bootstrap/dist/css/bootstrap.min.css')
+
+    //- load out css bundle
+    link(rel='stylesheet' href='/styles/global.css')
+
+    //- loading screen style
+    style.
+      html, body {
+        min-width: 100%;
+        min-height: 100vh;
+      }
+
+      body {
+        background-color: #FCFCFC;
+        color: #353c4e;
+      }
+
+      .loading-screen {
+        min-width: 100%;
+        min-height: 100vh;
+        position: relative;
+      }
+
+      .loading-screen-logo {
+        width: 15rem;
+        height: 15rem;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+  body
+    //- fix `module is not defined` error
+    script window.module = {};
+
+    epoll
+      div.loading-screen
+        img.loading-screen-logo(src='/assets/logo-spin.svg' alt='loading image')
+
+    //- polyfill(s) for older browsers
+    script(src='/core-js/client/shim.min.js')
+    script(src='/intl/dist/Intl.min.js')
+    script(src='/classlist.js/classList.min.js')
+    script(src='/web-animations-js/web-animations.min.js')
+    script(src='/zone.js/dist/zone.min.js')
+    script(src='/reflect-metadata/Reflect.js')
+    script(src='/systemjs/dist/system.src.js')
+
+    //- load libraries
+    script(defer,src='/store/dist/store.modern.min.js')
+    script(defer,src='https://sdk.accountkit.com/ro_RO/sdk.js')
+
+    //- load application
+    script.
+      System.config({
+        // map tells the System loader where to look for things
+        map: {
+          // angular bundles
+          '@angular/animations': '@angular/animations/bundles/animations.umd.js',
+          '@angular/animations/browser': '@angular/animations/bundles/animations-browser.umd.js',
+          '@angular/core': '@angular/core/bundles/core.umd.js',
+          '@angular/common': '@angular/common/bundles/common.umd.js',
+          '@angular/common/http': '@angular/common/bundles/common-http.umd.js',
+          '@angular/compiler': '@angular/compiler/bundles/compiler.umd.js',
+          '@angular/platform-browser': '@angular/platform-browser/bundles/platform-browser.umd.js',
+          '@angular/platform-browser-dynamic': '@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js',
+          '@angular/router': '@angular/router/bundles/router.umd.js',
+          '@angular/forms': '@angular/forms/bundles/forms.umd.js',
+          '@angular/upgrade': '@angular/upgrade/bundles/upgrade.umd.js',
+          '@angular/upgrade/static': '@angular/upgrade/bundles/upgrade-static.umd.js',
+          '@angular/platform-browser/animations': '@angular/platform-browser/bundles/platform-browser-animations.umd.js',
+          // other libraries
+          'rxjs': 'rxjs',
+          'moment': 'moment/moment.js',
+          'moment-timezone': 'moment-timezone/builds/moment-timezone-with-data.min.js',
+          'moment/locale/ro': 'moment/locale/ro.js',
+          'socket.io-client': 'socket.io-client/dist/socket.io.slim.js',
+          'epoll-api-sdk': 'epoll-api-sdk/build/index.js',
+          'epoll-errors': 'epoll-errors/build/index.js',
+          'tslib': 'tslib/tslib.js',
+          'exceptional.js': 'exceptional.js/build/main.js',
+          '@ngrx/store': '@ngrx/store/bundles/store.umd.js',
+          '@ngrx/effects': '@ngrx/effects/bundles/effects.umd.js',
+        },
+        // packages tells the System loader how to load when no filename and/or no extension
+        packages: {
+          'rxjs/ajax': {main: 'index.js', defaultExtension: 'js' },
+          'rxjs/operators': {main: 'index.js', defaultExtension: 'js' },
+          'rxjs/testing': {main: 'index.js', defaultExtension: 'js' },
+          'rxjs/websocket': {main: 'index.js', defaultExtension: 'js' },
+          'rxjs': { main: 'index.js', defaultExtension: 'js' },
+          '/': {
+            defaultExtension: 'js'
+          }
+        }
+      });
+      System.import('main').catch(function(err){ console.error(err);});

@@ -1,0 +1,50 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "console": "integratedTerminal",
+      "program": "${workspaceFolder}/src/main.ts",
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/build/**"
+      ],
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "console": "integratedTerminal",
+      "name": "Launch Program Local Config",
+      "program": "${workspaceFolder}/src/main.ts",
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/build/**"
+      ],
+      "args": [
+        "--config-file-path",
+        "../epoll-web.conf.json"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "console": "integratedTerminal",
+      "name": "Launch Program Universal",
+      "program": "${workspaceFolder}/build/main.js",
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/build/**"
+      ],
+      "args": [
+        "--config-file-path",
+        "../epoll-web.conf.json",
+        "--config", "stage"
+      ]
+    }
+  ]
+}

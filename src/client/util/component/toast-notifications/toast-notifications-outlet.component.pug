@@ -1,0 +1,18 @@
+div.toast-container( *ngIf="toasts.length > 0" )
+  div.toast(
+    *ngFor="let toast of toasts; let i = index", [@slide]="'in'" ,
+    [ngClass]=`{
+      'success': toast.type === 0,
+      'danger': toast.type === 1,
+      'warning': toast.type === 2
+    }`
+  )
+    button.close.text-white( type="button", aria-label="Close", (click)="close(i)")
+      span( aria-hidden="true" ) &times;
+    p
+      i.fa( [ngClass]=`{
+        'fa-check': toast.type === 0,
+        'fa-close': toast.type === 1,
+        'fa-warning': toast.type === 2
+      }`)
+      span {{toast.message}}

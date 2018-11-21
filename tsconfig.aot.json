@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    // "noEmitOnError": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "strict": true,
+    "module": "es2015",
+    "moduleResolution": "node",
+    "target": "es2015",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true
+  },
+
+  "include": [
+    "pre-build/client/*.ts"
+  ],
+  "exclude": [
+    "pre-build/client/app.server.module.ts"
+  ],
+
+  "angularCompilerOptions": {
+  }
+}
