@@ -2,6 +2,7 @@ import { NgModule }  from '@angular/core';
 
 import { SharedModule } from '../../shared.module';
 import { UtilModule } from '../../util/util.module';
+import { AccountKitService } from './accountKit.service';
 
 @NgModule({
   imports: [
@@ -9,6 +10,7 @@ import { UtilModule } from '../../util/util.module';
     UtilModule
   ],
   providers: [
+    AccountKitService
   ],
   declarations: [
   ],

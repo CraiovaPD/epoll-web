@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ErrorUtil } from '../../util/helpers/errorUtil';
+import { AccountKitService } from '../../core/users/accountKit.service';
 
 /**
  * Component used for displaying the home page.
@@ -20,7 +21,8 @@ export class HomePageComponent implements OnInit, OnDestroy {
    * Class constructor.
    */
   constructor (
-    private _errors: ErrorUtil
+    private _errors: ErrorUtil,
+    private _akService: AccountKitService
   ) {
 
   }
@@ -37,5 +39,17 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy () {
+  }
+
+  /**
+   * Login via AK.
+   */
+  async loginAK () {
+    try {
+      let token = await this._akService.login('', '');
+      console.log(token);
+    } catch (err) {
+      this._errors.dispatch(err);
+    }
   }
 }

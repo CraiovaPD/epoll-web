@@ -2,14 +2,14 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../shared.module';
 
-// import { UserModule } from './users/user.module';
+import { UserModule } from './users/user.module';
 
 @NgModule({
   imports: [
     SharedModule
   ],
   exports: [
-    // .UserModule,
+    UserModule,
   ]
 })
 export class CoreModule {}
