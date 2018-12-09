@@ -13,12 +13,15 @@ import { AuthGuard } from './common/auth.guard';
 import { NotFoundPageComponent } from './not-found/page.component';
 import { HomePageComponent } from './home/page.component';
 import { HomePageResolver } from './home/page.resolver';
+import { DebateDetailsPageComponent } from './debate-details/page.component';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
   resolve: {pageData: HomePageResolver}
 }, {
   path: '404', component: NotFoundPageComponent
+}, {
+  path: 'debates/:id', component: DebateDetailsPageComponent
 }, {
   path: '**', redirectTo: '404'
 }];
@@ -40,6 +43,7 @@ export const ROUTES: Route[] = [{
     // pages
     NotFoundPageComponent,
     HomePageComponent,
+    DebateDetailsPageComponent
   ],
   exports: [
 

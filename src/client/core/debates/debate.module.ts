@@ -5,6 +5,7 @@ import { UtilModule } from '../../util/util.module';
 
 import { DebateService } from './debate.service';
 import { PollListComponent } from './polls/poll-list.component';
+import { DebateHostComponent } from './renderer/debate-host.component';
 
 @NgModule({
   imports: [
@@ -16,9 +17,11 @@ import { PollListComponent } from './polls/poll-list.component';
   ],
   declarations: [
     PollListComponent,
+    DebateHostComponent
   ],
   exports: [
-    PollListComponent
+    PollListComponent,
+    DebateHostComponent
   ]
 })
 export class DebateModule {}
