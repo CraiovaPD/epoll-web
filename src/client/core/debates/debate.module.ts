@@ -6,6 +6,9 @@ import { UtilModule } from '../../util/util.module';
 import { DebateService } from './debate.service';
 import { PollListComponent } from './polls/poll-list.component';
 import { DebateHostComponent } from './renderer/debate-host.component';
+import { PollDebateComponent } from './renderer/components/poll-debate.component';
+import { DebateDirective } from './renderer/debate.directive';
+import { DebateFactoryService } from './renderer/debate-factory.service';
 
 @NgModule({
   imports: [
@@ -13,15 +16,21 @@ import { DebateHostComponent } from './renderer/debate-host.component';
     UtilModule
   ],
   providers: [
-    DebateService
+    DebateService,
+    DebateFactoryService
   ],
   declarations: [
     PollListComponent,
-    DebateHostComponent
+    DebateHostComponent,
+    PollDebateComponent,
+    DebateDirective
   ],
   exports: [
     PollListComponent,
     DebateHostComponent
+  ],
+  entryComponents: [
+    PollDebateComponent
   ]
 })
 export class DebateModule {}

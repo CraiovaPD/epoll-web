@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { IDebate } from '../../../types/debates/IDebate';
 
 /**
  * Host component used to render a concrete debate item.
@@ -14,6 +15,7 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class DebateHostComponent implements OnInit {
+  @Input() public debate: IDebate<any> | undefined;
 
   /**
    * Class constructor

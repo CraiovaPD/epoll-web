@@ -15,4 +15,12 @@ export default function config (app: express.Express) {
     req;
     res.sendFile(path.join(__dirname, '../client/index.html'));
   });
+
+  // pages that also load the angular app
+  app.get([
+    '/debates/**'
+  ], (req, res) => {
+    req;
+    res.sendFile(path.join(__dirname, '../client/index.html'));
+  });
 }

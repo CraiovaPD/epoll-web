@@ -14,6 +14,7 @@ import { NotFoundPageComponent } from './not-found/page.component';
 import { HomePageComponent } from './home/page.component';
 import { HomePageResolver } from './home/page.resolver';
 import { DebateDetailsPageComponent } from './debate-details/page.component';
+import { DebatePageResolver } from './debate-details/page.resolver';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
@@ -21,7 +22,8 @@ export const ROUTES: Route[] = [{
 }, {
   path: '404', component: NotFoundPageComponent
 }, {
-  path: 'debates/:id', component: DebateDetailsPageComponent
+  path: 'debates/:id', component: DebateDetailsPageComponent,
+  resolve: {pageData: DebatePageResolver}
 }, {
   path: '**', redirectTo: '404'
 }];
@@ -37,7 +39,8 @@ export const ROUTES: Route[] = [{
   ],
   providers: [
     HomePageResolver,
-    AuthGuard
+    AuthGuard,
+    DebatePageResolver
   ],
   declarations: [
     // pages

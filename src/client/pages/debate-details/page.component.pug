@@ -5,6 +5,7 @@ epoll-navbar
 
 main.container
   div.row
-    div.col-12.col-md-9.col-lg-6.mx-auto
-      h1 Dezbatere
-      epoll-debate-host
+    div.col-12.col-md-9.col-lg-6.mx-auto.pt-3
+      epoll-debate-host(
+        [debate]="debate"
+      )

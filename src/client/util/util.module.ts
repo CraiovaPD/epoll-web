@@ -10,6 +10,7 @@ import {
 import { NavbarComponent } from './component/navbar/navbar.component';
 import { NavbarLogoButtonComponent } from './component/navbar/navbar-logo-button.component';
 import { JsonLdDirective } from './component/json-ld.directive';
+import { DynamicComponentHostDirective } from './component/dynamic-component-host.directive';
 
 @NgModule({
   imports: [
@@ -23,13 +24,15 @@ import { JsonLdDirective } from './component/json-ld.directive';
     ToastNotificationsOutletComponent,
     NavbarComponent,
     NavbarLogoButtonComponent,
-    JsonLdDirective
+    JsonLdDirective,
+    DynamicComponentHostDirective
   ],
   exports: [
     ToastNotificationsOutletComponent,
     NavbarComponent,
     NavbarLogoButtonComponent,
-    JsonLdDirective
+    JsonLdDirective,
+    DynamicComponentHostDirective
   ],
   entryComponents: []
 })

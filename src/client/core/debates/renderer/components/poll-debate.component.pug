@@ -1,0 +1,34 @@
+div(*ngIf="!!debate; else loading")
+  h1.title {{debate.payload.title}}
+  div.flex.mt-1
+    b {{debate.payload.votes.count}}
+    span  voturi
+    b  •
+    span  postat acum
+    b  {{getAgoTime(debate)}}
+
+  div#content.my-4
+    span {{debate.payload.content}}
+
+  ul.list-unstyled(*ngFor="let attachment of debate.payload.attachments")
+    li
+      a(href="{{attachment.file.downloadPath}}", target="_blank")
+        i.far.fa-file.mr-2
+        span {{attachment.file.originalName}}
+
+  h2.h5.mt-2 Care este părerea ta?
+
+  form([formGroup]="voteForm")
+    div.form-check(*ngFor="let option of debate.payload.options")
+      input.form-check-input([id]="option._id", [name]="voteOptionId", [value]="option._id", type="radio", formControlName="voteOptionId")
+      label.form-check-label([for]="option._id") {{option.reason}}
+
+    button.btn.btn-block.btn-primary.mt-3(
+      type="submit", [disabled]="!voteForm.valid"
+    ) VOTEAZA
+
+  hr
+  button.btn.btn-block.btn-info.mt-3 SHARE
+
+ng-template(#loading)
+  p Se incarca

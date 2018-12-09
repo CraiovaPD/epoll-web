@@ -26,5 +26,6 @@ export class PollListComponent implements OnInit {
   /**
    * Angular lifecycle hooks.
    */
-  ngOnInit () { }
+  ngOnInit () {
+  }
 }
