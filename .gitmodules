@@ -1,0 +1,3 @@
+[submodule "src/client/types"]
+	path = src/client/types
+	url = https://github.com/CraiovaPD/epoll-types.git
