@@ -9,7 +9,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   moduleId: module.id,
   selector: 'epoll-copyright-footer',
-  templateUrl: 'copyright-footer.component.html'
+  templateUrl: 'copyright-footer.component.html',
+  styleUrls: [
+    'copyright-footer.component.css'
+  ]
 })
 export class CopyrightFooterComponent implements OnInit {
 
