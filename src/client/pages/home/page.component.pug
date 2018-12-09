@@ -8,6 +8,7 @@ epoll-navbar
 main.container
   div.row
     div.col-12.col-md-9.col-lg-6.mx-auto
+      ng-container(*ngTemplateOutlet="_tfPage")
       button.btn.btn-block(
         (click)="loginAK()"
       ) Login
@@ -16,3 +17,10 @@ footer.container.mt-3
   div.row
     div.col-12.col-md-9.col-lg-6.mx-auto
       epoll-copyright-footer
+
+ng-template(#_tfPage)
+  h1 Opinia voastra despre...
+  epoll-poll-list([polls]="polls$ | async")
+
+  h1.mt-3 Comunicari
+

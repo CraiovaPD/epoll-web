@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { ErrorUtil } from '../../util/helpers/errorUtil';
 import { AccountKitService } from '../../core/users/accountKit.service';
+import { Observable } from 'rxjs';
+import { IDebatePollListItem } from '../../types/debates/IDebate';
+import { DebateService } from '../../core/debates/debate.service';
 
 /**
  * Component used for displaying the home page.
@@ -16,15 +19,17 @@ import { AccountKitService } from '../../core/users/accountKit.service';
   ]
 })
 export class HomePageComponent implements OnInit, OnDestroy {
+  public polls$: Observable<IDebatePollListItem[]>;
 
   /**
    * Class constructor.
    */
   constructor (
     private _errors: ErrorUtil,
-    private _akService: AccountKitService
+    private _akService: AccountKitService,
+    private _debateService: DebateService
   ) {
-
+    this.polls$ = this._debateService.listPolls({});
   }
 
   /**
