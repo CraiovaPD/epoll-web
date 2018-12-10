@@ -18,7 +18,7 @@ div(*ngIf="!!debate; else loading")
 
   h2.h5.mt-2 Care este părerea ta?
 
-  form([formGroup]="voteForm")
+  form(*ngIf="hasNotVoted; else pollResultsWidget", [formGroup]="voteForm")
     div.form-check(*ngFor="let option of debate.payload.options")
       input.form-check-input([id]="option._id", [name]="voteOptionId", [value]="option._id", type="radio", formControlName="voteOptionId")
       label.form-check-label([for]="option._id") {{option.reason}}
@@ -27,8 +27,30 @@ div(*ngIf="!!debate; else loading")
       type="submit", [disabled]="!voteForm.valid"
     ) VOTEAZA
 
+  ng-template(#pollResultsWidget)
+    div.poll-result.progress.my-1(*ngFor="let result of pollResults", style="height: 2rem")
+      div.progress-bar.progress-bar-striped.progress-bar-animated(
+        role="progress", [attr.aria-valuenow]="result.count",
+        aria-valuemin="0", [attr.aria-valuemax]="debate.payload.votes.count",
+
+        [ngStyle]=`{
+          width: (result.count * 100 / debate.payload.votes.count || 1) + '%'
+        }`
+      )
+        div.d-flex
+          strong.ml-1 {{(result.count * 100 / debate.payload.votes.count || 1)}}%
+          span.text-nowrap.text-truncate.ml-2  {{result.name}}
+
   hr
-  button.btn.btn-block.btn-info.mt-3 SHARE
+
+  h2.h5.mt-2 Distribuie
+  a.social-icon(href="", (click)="$event.preventDefault(); facebookShare(debate)")
+    i.fab.fa-facebook-square
+  a.social-icon.ml-4(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
+    i.fab.fa-instagram
+  a.social-icon.ml-4(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
+    i.fab.fa-whatsapp
+
 
 ng-template(#loading)
   p Se incarca
