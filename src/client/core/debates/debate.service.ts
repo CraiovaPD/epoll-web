@@ -5,6 +5,7 @@ import EPollAPI from 'epoll-api-sdk';
 // types
 import { IDebatePollListItem, IDebate } from '../../types/debates/IDebate';
 import { IVote } from '../../types/debates/IVote';
+import { IAttachment } from '../../types/debates/IAttachment';
 
 /**
  * Angular Debate service class.
@@ -53,6 +54,32 @@ export class DebateService {
     return EPollAPI.Debates().addPollVote({
       pollId: params.pollId,
       optionId: params.selectedOptionId
+    });
+  }
+
+  /**
+   * Add a new attachment.
+   */
+  addAttachment (params: {
+    pollId: string,
+    formData: FormData
+  }) : Observable<IAttachment> {
+    return EPollAPI.Debates().addPollAttachment({
+      pollId: params.pollId,
+      formData: params.formData
+    });
+  }
+
+  /**
+   * Remove an attachment.
+   */
+  removeAttachment (params: {
+    pollId: string,
+    attachmentId: string
+  }) {
+    return EPollAPI.Debates().removePollAttachment({
+      pollId: params.pollId,
+      attachmentId: params.attachmentId
     });
   }
 }

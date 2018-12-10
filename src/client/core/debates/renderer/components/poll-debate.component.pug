@@ -10,13 +10,30 @@ div(*ngIf="!!debate; else loading")
   div#content.my-4
     span {{debate.payload.content}}
 
-  ul.list-unstyled(*ngFor="let attachment of debate.payload.attachments")
-    li
-      a(href="{{attachment.file.downloadPath}}", target="_blank")
-        i.far.fa-file.mr-2
-        span {{attachment.file.originalName}}
+  ul.list-unstyled
+    li.d-flex(*ngFor="let attachment of debate.payload.attachments")
+      div.col-11.p-0
+        a(href="{{attachment.file.downloadPath}}", target="_blank")
+          i.far.fa-file.mr-2
+          span {{attachment.file.originalName}}
+      div.col-1.p-0(
+        (click)="removeAttachment(debate, attachment)"
+      )
+        span.text-danger
+          i.fas.fa-times
+    li.mt-3(
+      (click)="filePicker.click()"
+    )
+      i.fas.fa-plus-square
+      span.ml-2.pt-3 #[u Adauga atasament]
+      input.invisible(
+        #filePicker, nvb-file-picker,
+        type="file", auto-reset="true",
+        (onPick)="addAttachment(debate, $event)",
+        hidden="true"
+      )
 
-  h2.h5.mt-2 Care este părerea ta?
+  h2.h5 Care este părerea ta?
 
   form(*ngIf="hasNotVoted; else pollResultsWidget", [formGroup]="voteForm")
     div.form-check(*ngFor="let option of debate.payload.options")
