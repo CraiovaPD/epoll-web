@@ -1,0 +1,7 @@
+div(*ngIf="(userProfile$ | async) as profile; else loginLink")
+  a(routerLink='/login')
+    span {{profile.firstname}}
+
+ng-template(#loginLink)
+  a(routerLink='/login')
+    span Autentificare

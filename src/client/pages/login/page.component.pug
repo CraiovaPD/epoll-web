@@ -1,0 +1,53 @@
+epoll-navbar
+  div.col-12.col-md-9.col-lg-6.mx-auto.px-0
+    div.d-flex.justify-content-between
+      epoll-navbar-logo-button
+
+main.container
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      h1.h2.mt-5 Hai să schimbăm orașul împreună
+
+      nvb-wizard-host(#wizardHost)
+        nvb-wizard-page([pageId]='wizardPageIds.phonePage')
+          h2.h6 Pentru a te autentifica, te rugăm să introduci numărul de telefon
+
+          form([formGroup]="phoneForm", (submit)="auth()")
+            .form-group
+              input.form-control(
+                id="phone", type="tel", name="phone",
+                [formControl]="phoneForm.controls.phone"
+              )
+            button.btn.btn-block.btn-primary(type="submit") CONTINUĂ
+
+        nvb-wizard-page([pageId]='wizardPageIds.profilePage')
+          h2.h5.mt-1 Întai să ne cunoaştem. Spune-ne cum te numeşti
+
+          form([formGroup]="newUserProfileForm", (submit)="register()")
+            .form-group
+              label.form-control-label(for="firstname") Prenume
+              input.form-control(
+                id="firstname", type="text", name="firstname",
+                [formControl]="newUserProfileForm.controls.firstname"
+              )
+            .form-group
+              label.form-control-label(for="lastname") Nume de Familie
+              input.form-control(
+                id="lastname", type="text", name="lastname",
+                [formControl]="newUserProfileForm.controls.lastname"
+              )
+            .form-check
+              input.form-check-input(
+                id="agreement", type="checkbox",
+                [formControl]="newUserProfileForm.controls.agreement"
+              )
+              label.form-check-label(for="agreement") Sunt de acord cu termenii si conditiile si accept #[a(ref="") Politica de Confidentialitate].
+
+            button.btn.btn-block.btn-primary.mt-1(
+              type="submit", [disabled]="!newUserProfileForm.valid"
+            ) ÎNREGISTRARE
+
+footer.container-fluid.p-0.mt-3
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      epoll-copyright-footer

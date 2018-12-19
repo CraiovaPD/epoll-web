@@ -18,6 +18,7 @@ export default function config (app: express.Express) {
 
   // pages that also load the angular app
   app.get([
+    '/404', '/login',
     '/debates/**'
   ], (req, res) => {
     req;

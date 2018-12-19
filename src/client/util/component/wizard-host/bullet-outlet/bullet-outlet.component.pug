@@ -1,0 +1,8 @@
+div.d-flex.justify-content-center
+  div.mx-1.wizard-bullet(
+    *ngFor="let page of wizardHost.wizard?.pages",
+    [ngClass]=`{
+      'selected': isSelected(page)
+    }`,
+    (click)="goTo(page)"
+  )

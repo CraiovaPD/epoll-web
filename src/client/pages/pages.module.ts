@@ -15,12 +15,15 @@ import { HomePageComponent } from './home/page.component';
 import { HomePageResolver } from './home/page.resolver';
 import { DebateDetailsPageComponent } from './debate-details/page.component';
 import { DebatePageResolver } from './debate-details/page.resolver';
+import { LoginPageComponent } from './login/page.component';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
   resolve: {pageData: HomePageResolver}
 }, {
   path: '404', component: NotFoundPageComponent
+}, {
+  path: 'login', component: LoginPageComponent
 }, {
   path: 'debates/:id', component: DebateDetailsPageComponent,
   resolve: {pageData: DebatePageResolver}
@@ -46,7 +49,8 @@ export const ROUTES: Route[] = [{
     // pages
     NotFoundPageComponent,
     HomePageComponent,
-    DebateDetailsPageComponent
+    DebateDetailsPageComponent,
+    LoginPageComponent
   ],
   exports: [
 

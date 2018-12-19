@@ -22,7 +22,7 @@ import { PagesModule, ROUTES as CORE_ROUTES } from './pages/pages.module';
 import { IAppState, rootReducers, EFFECTS } from './store/IApp';
 
 // users
-import { UserService, JWT_STORAGE_KEY } from './core/users/user.service';
+import { UserService, JWT_STORAGE_KEY, JWT_TYPE_STORAGE_KEY } from './core/users/user.service';
 import { ToastNotificationsService } from './util/component/toast-notifications/toast-notifications.service';
 
 import {
@@ -44,7 +44,8 @@ export function init (
     EPollAPI.loadConfig(env.api);
     let jwt = localStorage.getItem(JWT_STORAGE_KEY);
     if (jwt) {
-      EPollAPI.startSession(jwt);
+      let jwtType = localStorage.getItem(JWT_TYPE_STORAGE_KEY);
+      EPollAPI.startSession(jwtType, jwt);
     }
   };
 }

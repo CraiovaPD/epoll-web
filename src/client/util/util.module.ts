@@ -12,6 +12,13 @@ import { NavbarLogoButtonComponent } from './component/navbar/navbar-logo-button
 import { JsonLdDirective } from './component/json-ld.directive';
 import { DynamicComponentHostDirective } from './component/dynamic-component-host.directive';
 import { FilePickerDirective } from './component/file-picker.directive';
+import { NavbarUserMenuComponent } from './component/navbar/navbar-user-menu.component';
+
+import { WizardHostComponent } from './component/wizard-host/wizard-host.component';
+import { WizardPageDirective } from './component/wizard-host/wizard-page.directive';
+import { CarouselWizardComponent } from './component/wizard-host/carousel-wizard/carousel-wizard.component';
+import { AccordionWizardComponent } from './component/wizard-host/accordion-wizard/accordion-wizard.component';
+import { WizardBulletOutletComponent } from './component/wizard-host/bullet-outlet/bullet-outlet.component';
 
 @NgModule({
   imports: [
@@ -25,17 +32,31 @@ import { FilePickerDirective } from './component/file-picker.directive';
     ToastNotificationsOutletComponent,
     NavbarComponent,
     NavbarLogoButtonComponent,
+    NavbarUserMenuComponent,
     JsonLdDirective,
     DynamicComponentHostDirective,
-    FilePickerDirective
+    FilePickerDirective,
+
+    // wizard
+    WizardHostComponent,
+    WizardPageDirective,
+    CarouselWizardComponent,
+    AccordionWizardComponent,
+    WizardBulletOutletComponent,
   ],
   exports: [
     ToastNotificationsOutletComponent,
     NavbarComponent,
     NavbarLogoButtonComponent,
+    NavbarUserMenuComponent,
     JsonLdDirective,
     DynamicComponentHostDirective,
-    FilePickerDirective
+    FilePickerDirective,
+
+    // wizard
+    WizardHostComponent,
+    WizardPageDirective,
+    WizardBulletOutletComponent,
   ],
   entryComponents: []
 })

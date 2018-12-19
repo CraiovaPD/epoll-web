@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-// import EPollAPI from 'epoll-api-sdk';
+import EPollAPI from 'epoll-api-sdk';
 
 import {IAppState} from '../../store/IApp';
 import {
@@ -9,9 +10,10 @@ import {
 } from '../../store/users/profile.actions';
 import { IUserProfile } from '../../store/users/IUserProfile';
 import { LocalStorage } from '../../util/storage/localStorage';
-import { Router } from '@angular/router';
+import { IEnvironmentConfig, ENVIRONMENT_CONFIG } from '../../environment.config';
 
 export const JWT_STORAGE_KEY = '@epoll:jwt';
+export const JWT_TYPE_STORAGE_KEY = '@epoll:jwt-type';
 
 /**
  * Angular user service class.
@@ -27,8 +29,8 @@ export class UserService {
   constructor (
     private _store: Store<IAppState>,
     private _localStorage: LocalStorage,
-    private _router: Router
-    // @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig,
+    private _router: Router,
+    @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig,
   ) {}
 
   /**
@@ -55,15 +57,13 @@ export class UserService {
    */
   async loadProfile () {
     if (this.isLoggedIn()) {
-      // let user = await EPollAPI.Users().getProfile().toPromise();
-      // this.setProfile({
-      //   _id: user._id,
-      //   phone: user.phone,
-      //   firstname: user.profile.firstname,
-      //   lastname: user.profile.lastname,
-      //   photo: user.profile.photo,
-      //   facebookId: user.facebook ? user.facebook.id : undefined
-      // });
+      let user = await EPollAPI.Users().getMyUserProfile().toPromise();
+      this.setProfile({
+        _id: user._id,
+        phone: user.phone,
+        firstname: user.firstname,
+        lastname: user.lastname
+      });
     }
   }
 
@@ -72,7 +72,8 @@ export class UserService {
    */
   logout () {
     this._localStorage.clear(JWT_STORAGE_KEY);
-    // .EPollAPI.endSession();
+    this._localStorage.clear(JWT_TYPE_STORAGE_KEY);
+    EPollAPI.endSession();
     this._store.dispatch(new SetProfile());
     this._router.navigate(['/login']);
   }
@@ -82,5 +83,59 @@ export class UserService {
    */
   isLoggedIn () : boolean {
     return !!this._localStorage.getItem(JWT_STORAGE_KEY);
+  }
+
+  /**
+   * Authenticate user using an AK Code.
+   */
+  async authenticate (akCode: string) {
+    let state = String(new Date());
+    let loginResp = await EPollAPI.Users().authenticate({
+      grantType: 'implicit',
+      clientId: this._env.authorization.clientId,
+      state,
+      accountKitCode: akCode,
+    }).toPromise();
+
+    if (loginResp.state === state) {
+      // save access credentials in browser storage
+      this._localStorage.setItem(JWT_STORAGE_KEY, loginResp.accessToken);
+      this._localStorage.setItem(JWT_TYPE_STORAGE_KEY, loginResp.tokenType);
+
+      // init API SDK
+      EPollAPI.startSession(loginResp.tokenType, loginResp.accessToken);
+
+      // save user profile in store
+      if (loginResp.user)
+        this.setProfile(loginResp.user);
+    }
+  }
+
+  /**
+   * Register a new user account.
+   */
+  async registerNewAccount (params: {
+    akCode: string,
+    firstname: string,
+    lastname: string
+  }) {
+    let state = String(new Date());
+    let loginResp = await EPollAPI.Users().register({
+      grantType: 'implicit',
+      clientId: this._env.authorization.clientId,
+      state,
+      accountKitCode: params.akCode,
+      firstname: params.firstname,
+      lastname: params.lastname
+    }).toPromise();
+
+    if (loginResp.state === state) {
+      // save access credentials in browser storage
+      this._localStorage.setItem(JWT_STORAGE_KEY, loginResp.accessToken);
+      this._localStorage.setItem(JWT_TYPE_STORAGE_KEY, loginResp.tokenType);
+
+      // init API SDK
+      EPollAPI.startSession(loginResp.tokenType, loginResp.accessToken);
+    }
   }
 }

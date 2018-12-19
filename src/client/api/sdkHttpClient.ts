@@ -4,7 +4,8 @@ import {
 } from '@angular/common/http';
 import { ServerException } from 'exceptional.js';
 import { IHttpClient, IHttpRequestOptions } from 'epoll-api-sdk';
-import { Observable } from 'rxjs';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { UserService } from '../core/users/user.service';
 
@@ -26,7 +27,7 @@ export class EPollApiSdkHttpClient implements IHttpClient {
     return this._httpClient.get(url, {
       headers: this._getAngularHttpHeaders(options),
       params: this._getParams(options)
-    }).catch(this._handleError.bind(this));
+    }).pipe(catchError(this._handleError.bind(this)));
   }
   post (url: string, options?: IHttpRequestOptions) {
     return this._httpClient.post(url, this._getBody(options), {
@@ -109,10 +110,9 @@ export class EPollApiSdkHttpClient implements IHttpClient {
     ) {
       let users = this._injector.get(UserService);
       users.logout();
-      // return Observable.never();
     }
 
-    return Observable.throw(err);
+    return throwError(err);
   }
 
   private _objectToFormData (obj: any, form: FormData, namespace?: string) {
