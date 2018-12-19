@@ -11,6 +11,7 @@ import {
 import { IUserProfile } from '../../store/users/IUserProfile';
 import { LocalStorage } from '../../util/storage/localStorage';
 import { IEnvironmentConfig, ENVIRONMENT_CONFIG } from '../../environment.config';
+import { IUser } from '../../types/users/IUser';
 
 export const JWT_STORAGE_KEY = '@epoll:jwt';
 export const JWT_TYPE_STORAGE_KEY = '@epoll:jwt-type';
@@ -137,5 +138,19 @@ export class UserService {
       // init API SDK
       EPollAPI.startSession(loginResp.tokenType, loginResp.accessToken);
     }
+  }
+
+  /**
+   * Get a user account by id.
+   */
+  getUserById (id: string) : Observable<IUser> {
+    return EPollAPI.Users().getUserProfileById(id);
+  }
+
+  /**
+   * Delete user account.
+   */
+  deleteAccount () : Observable<void> {
+    return EPollAPI.Users().deleteAccount();
   }
 }

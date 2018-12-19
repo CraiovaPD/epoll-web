@@ -1,0 +1,63 @@
+epoll-navbar
+  div.col-12.col-md-9.col-lg-6.mx-auto.px-0
+    div.d-flex.justify-content-between
+      epoll-navbar-logo-button
+
+main.container
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      div(*ngIf="isOwnProfile(); then ownProfile; else publicProfile")
+
+      h2.h5 Embleme Castigate
+
+      div.row
+        div.col-4.mb-1(*ngFor="let badge of badges")
+          div.badge.mx-auto
+ng-template(#ownProfile)
+  h1.h3.mt-3 Salut, {{user.firstname}}!
+
+  h2.h5 Datele tale personale
+  div.ml-4
+    p.m-0 Nume:
+      b  {{user.firstname}} {{user.lastname}}
+    p.m-0 Telefon:
+      b  {{user.phone}}
+    a(href="", (click)="$event.preventDefault();") Modifica
+
+  h2.h5.mt-2 Statisticile contului tau sunt:
+  ul
+    li Ai participat in 0 sondaje.
+    li Ai citit 4 comunicate.
+    li Ai actualizat 3 sondaje.
+
+  h2.h6.mt-5 Daca ai ajuns pana aici inseamna ca vrei sa
+  button.btn.btn-block.btn-warning(
+    (click)="logout()"
+  ) IESI DIN CONT
+
+  h2.h6.mt-3 Sau poate vrei sa iti stergi contul?
+  form((ngSubmit)="deleteAccount()")
+    .form-check
+      input.form-check-input(
+        id="agreement", name="agreement", type="checkbox",
+        [(ngModel)]="deleteAgreement"
+      )
+      label.form-check-label.font-weight-light(for="agreement").
+        Sunt de acord si inteleg faptul ca prin aceasta actiune toate datele asociate acestui cont vor fi sterse definitiv.
+    button.btn.btn-block.btn-danger.mt-1(
+      type="submit", [disabled]="!deleteAgreement"
+    ) ŞTERGE
+
+ng-template(#publicProfile)
+  h1.h3.mt-3 {{user.firstname}} {{user.lastname}}
+
+  h2.h5.mt-4 Statisticile contului:
+  ul
+    li A participat in 0 sondaje.
+    li A citit 4 comunicate.
+    li A actualizat 3 sondaje.
+
+footer.container-fluid.p-0.mt-3
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      epoll-copyright-footer

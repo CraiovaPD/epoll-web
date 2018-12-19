@@ -16,6 +16,8 @@ import { HomePageResolver } from './home/page.resolver';
 import { DebateDetailsPageComponent } from './debate-details/page.component';
 import { DebatePageResolver } from './debate-details/page.resolver';
 import { LoginPageComponent } from './login/page.component';
+import { UserProfilePageComponent } from './user-profile/page.component';
+import { UserProfilePageResolver } from './user-profile/page.resolver';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
@@ -24,6 +26,9 @@ export const ROUTES: Route[] = [{
   path: '404', component: NotFoundPageComponent
 }, {
   path: 'login', component: LoginPageComponent
+}, {
+  path: 'u/:id', component: UserProfilePageComponent,
+  resolve: {pageData: UserProfilePageResolver}
 }, {
   path: 'debates/:id', component: DebateDetailsPageComponent,
   resolve: {pageData: DebatePageResolver}
@@ -43,14 +48,16 @@ export const ROUTES: Route[] = [{
   providers: [
     HomePageResolver,
     AuthGuard,
-    DebatePageResolver
+    DebatePageResolver,
+    UserProfilePageResolver
   ],
   declarations: [
     // pages
     NotFoundPageComponent,
     HomePageComponent,
     DebateDetailsPageComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    UserProfilePageComponent
   ],
   exports: [
 

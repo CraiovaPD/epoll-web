@@ -1,5 +1,5 @@
 div(*ngIf="(userProfile$ | async) as profile; else loginLink")
-  a(routerLink='/login')
+  a([routerLink]="['/u', profile._id]")
     span {{profile.firstname}}
 
 ng-template(#loginLink)
