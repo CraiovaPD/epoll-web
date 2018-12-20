@@ -88,6 +88,7 @@ export class UserProfilePageComponent implements OnInit {
   logout () {
     try {
       this._userService.logout();
+      this._router.navigate(['/login']);
     } catch (error) {
       this._errors.dispatch(error);
     }
@@ -99,7 +100,7 @@ export class UserProfilePageComponent implements OnInit {
   async deleteAccount () {
     try {
       if (confirm('Esti sigur ca vrei sa stergi definitiv contul?')) {
-        await this._userService.deleteAccount().toPromise();
+        await this._userService.deleteAccount();
         this._router.navigate(['/login']);
       }
     } catch (error) {

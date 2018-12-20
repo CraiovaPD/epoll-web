@@ -23,6 +23,7 @@ import { WizardHostComponent } from '../../util/component/wizard-host/wizard-hos
 })
 export class LoginPageComponent implements OnInit {
   @ViewChild(WizardHostComponent) private _wizardHost!: WizardHostComponent;
+  private _lastAkCode: string = '';
 
   public phoneForm: FormGroup;
   public newUserProfileForm: FormGroup;
@@ -43,7 +44,8 @@ export class LoginPageComponent implements OnInit {
   ) {
     this.phoneForm = formBuilder.group({
       phone: ['', Validators.compose([
-        Validators.required
+        Validators.required, Validators.minLength(9),
+        // .Validators.pattern('[0-9]')
       ])]
     });
 
@@ -71,8 +73,8 @@ export class LoginPageComponent implements OnInit {
   async auth () {
     try {
       let phone = this.phoneForm.controls.phone.value;
-      let akCode = await this._akService.login('+40', phone);
-      await this._users.authenticate(akCode);
+      this._lastAkCode = await this._akService.login('+40', phone);
+      await this._users.authenticate(this._lastAkCode);
       this._router.navigate(['/']);
     } catch (exception) {
       if (exception instanceof ServerException) {
@@ -97,7 +99,7 @@ export class LoginPageComponent implements OnInit {
       let firstname = this.newUserProfileForm.controls.firstname.value;
       let lastname = this.newUserProfileForm.controls.lastname.value;
 
-      let akCode = await this._akService.login('+40', phone);
+      let akCode = this._lastAkCode ? this._lastAkCode : await this._akService.login('+40', phone);
       await this._users.registerNewAccount({
         akCode,
         firstname,
@@ -107,5 +109,12 @@ export class LoginPageComponent implements OnInit {
     } catch (error) {
       this._errors.dispatch(error);
     }
+  }
+
+  /**
+   * Go back to edit the phone number.
+   */
+  editPhone () {
+    this._wizardHost.back();
   }
 }

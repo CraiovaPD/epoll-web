@@ -1,5 +1,4 @@
 import { Injectable, Inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import EPollAPI from 'epoll-api-sdk';
@@ -30,7 +29,6 @@ export class UserService {
   constructor (
     private _store: Store<IAppState>,
     private _localStorage: LocalStorage,
-    private _router: Router,
     @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig,
   ) {}
 
@@ -76,7 +74,6 @@ export class UserService {
     this._localStorage.clear(JWT_TYPE_STORAGE_KEY);
     EPollAPI.endSession();
     this._store.dispatch(new SetProfile());
-    this._router.navigate(['/login']);
   }
 
   /**
@@ -137,6 +134,10 @@ export class UserService {
 
       // init API SDK
       EPollAPI.startSession(loginResp.tokenType, loginResp.accessToken);
+
+      // save user profile in store
+      if (loginResp.user)
+        this.setProfile(loginResp.user);
     }
   }
 
@@ -150,7 +151,8 @@ export class UserService {
   /**
    * Delete user account.
    */
-  deleteAccount () : Observable<void> {
-    return EPollAPI.Users().deleteAccount();
+  async deleteAccount () : Promise<void> {
+    await EPollAPI.Users().deleteAccount().toPromise();
+    this.logout();
   }
 }

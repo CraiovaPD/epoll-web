@@ -10,9 +10,6 @@ main.container
   div.row
     div.col-12.col-md-9.col-lg-6.mx-auto
       ng-container(*ngTemplateOutlet="_tfPage")
-      button.btn.btn-block(
-        (click)="loginAK()"
-      ) Login
 
 footer.container-fluid.p-0.mt-3
   div.row
@@ -20,8 +17,8 @@ footer.container-fluid.p-0.mt-3
       epoll-copyright-footer
 
 ng-template(#_tfPage)
-  h1 Opinia voastra despre...
+  h1.h2.mt-5 Opinia ta despre...
   epoll-poll-list([polls]="polls$ | async")
 
-  h1.mt-3 Comunicari
+  h1.h2.mt-3 Comunicari
 
