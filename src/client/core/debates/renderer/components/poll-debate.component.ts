@@ -1,4 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import moment from 'moment';
 
 import { IDebateComponent } from './IDebateComponent';
@@ -6,16 +9,11 @@ import { ENVIRONMENT_CONFIG, IEnvironmentConfig } from '../../../../environment.
 
 // types
 import { IDebate, IPollDebate } from '../../../../types/debates/IDebate';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { DebateService } from '../../debate.service';
-import { IVote } from '../../../../types/debates/IVote';
 import { IAttachment } from '../../../../types/debates/IAttachment';
 import { ErrorUtil } from '../../../../util/helpers/errorUtil';
-
-export interface IPollResult {
-  name: string,
-  count: number
-}
+import { IAppState } from '../../../../store/IApp';
+import { IUser } from 'epoll-api-sdk/build/types/users/IUser';
 
 const SHARE_HASHTAG = '#CraiovaPD';
 
@@ -34,9 +32,8 @@ const SHARE_HASHTAG = '#CraiovaPD';
 })
 export class PollDebateComponent implements IDebateComponent, OnInit {
   public debate: IDebate<IPollDebate> | undefined;
-  public voteForm: FormGroup;
-  public hasNotVoted = false;
-  public pollResults: IPollResult[] = [];
+  public user$: Observable<IUser | undefined>; // currently logged in user
+  public isEditor$: Observable<boolean>;
 
   /**
    * Class constructor.
@@ -44,38 +41,31 @@ export class PollDebateComponent implements IDebateComponent, OnInit {
   constructor (
     private _errors: ErrorUtil,
     private _debates: DebateService,
-    @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig,
-    formBuilder: FormBuilder
+    private _store: Store<IAppState>,
+    @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig
   ) {
-    this.voteForm = formBuilder.group({
-      voteOptionId: ['', Validators.required]
-    });
+    this.user$ = this._store.select(x => x.profile);
+    this.isEditor$ = this.user$.pipe(map(() => false));
   }
 
   /**
    * Angular lifecycle hooks.
    */
-  ngOnInit () { }
+  async ngOnInit () {
+    try {
+    } catch (error) {
+      this._errors.dispatch(error);
+    }
+  }
 
   /**
    * IDebateComponent interface methods.
    */
   setDebate (debate: IDebate<any>): void {
     this.debate = debate;
-
-    // check if user has already voted
-
-    // compute poll results
-    this.pollResults = this.debate.payload.options.map(option => {
-      let count = debate.payload.votes.data.reduce((sum: number, crt: IVote) => {
-        return sum + (crt.optionId === option._id ? 1 : 0);
-      }, 0);
-
-      return {
-        name: option.reason,
-        count
-      };
-    });
+    this.isEditor$ = this.user$.pipe(map(
+      user => user ? user._id === debate.createdBy : false
+    ));
   }
 
   /**
@@ -94,7 +84,7 @@ export class PollDebateComponent implements IDebateComponent, OnInit {
       await this._debates.voteOnPoll({
         pollId: debate._id,
         selectedOptionId: optionId
-      });
+      }).toPromise();
     } catch (error) {
       this._errors.dispatch(error);
     }

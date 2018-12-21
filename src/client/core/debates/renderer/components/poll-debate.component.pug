@@ -10,6 +10,17 @@ div(*ngIf="!!debate; else loading")
   div#content.my-4
     span {{debate.payload.content}}
 
+  div(*ngIf="!!debate; then filesList")
+  div(*ngIf="!!debate; then poll")
+  hr
+  div(*ngIf="!!debate; then social")
+
+//- // TEMPLATES
+ng-template(#loading)
+  p.my-5 Se incarca
+
+ng-template(#filesList)
+  h6 Fisiere atasate
   ul.list-unstyled
     li.d-flex(*ngFor="let attachment of debate.payload.attachments")
       div.col-11.p-0
@@ -19,9 +30,14 @@ div(*ngIf="!!debate; else loading")
       div.col-1.p-0(
         (click)="removeAttachment(debate, attachment)"
       )
-        span.text-danger
+        span.text-danger(
+          [ngClass]=`{
+            invisible: !(isEditor$ | async)
+          }`
+        )
           i.fas.fa-times
     li.mt-3(
+      [hidden]="!(isEditor$ | async)",
       (click)="filePicker.click()"
     )
       i.fas.fa-plus-square
@@ -33,33 +49,15 @@ div(*ngIf="!!debate; else loading")
         hidden="true"
       )
 
+ng-template(#poll)
   h2.h5 Care este părerea ta?
+  epoll-poll-vote(
+    [debate]="debate",
+    [user]="user$ | async",
+    (optionVoted)="vote(debate, $event)"
+  )
 
-  form(*ngIf="hasNotVoted; else pollResultsWidget", [formGroup]="voteForm")
-    div.form-check(*ngFor="let option of debate.payload.options")
-      input.form-check-input([id]="option._id", [name]="voteOptionId", [value]="option._id", type="radio", formControlName="voteOptionId")
-      label.form-check-label([for]="option._id") {{option.reason}}
-
-    button.btn.btn-block.btn-primary.mt-3(
-      type="submit", [disabled]="!voteForm.valid"
-    ) VOTEAZA
-
-  ng-template(#pollResultsWidget)
-    div.poll-result.progress.my-1(*ngFor="let result of pollResults", style="height: 2rem")
-      div.progress-bar.progress-bar-striped.progress-bar-animated(
-        role="progress", [attr.aria-valuenow]="result.count",
-        aria-valuemin="0", [attr.aria-valuemax]="debate.payload.votes.count",
-
-        [ngStyle]=`{
-          width: (result.count * 100 / debate.payload.votes.count || 1) + '%'
-        }`
-      )
-        div.d-flex
-          strong.ml-1 {{(result.count * 100 / debate.payload.votes.count || 1)}}%
-          span.text-nowrap.text-truncate.ml-2  {{result.name}}
-
-  hr
-
+ng-template(#social)
   h2.h5.mt-2 Distribuie
   a.social-icon(href="", (click)="$event.preventDefault(); facebookShare(debate)")
     i.fab.fa-facebook-square
@@ -67,7 +65,3 @@ div(*ngIf="!!debate; else loading")
     i.fab.fa-instagram
   a.social-icon.ml-4(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
     i.fab.fa-whatsapp
-
-
-ng-template(#loading)
-  p Se incarca

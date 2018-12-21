@@ -1,0 +1,31 @@
+form(
+  *ngIf="hasNotVoted; else pollResultsWidget",
+  [formGroup]="voteForm", (ngSubmit)="submitVote(voteForm.controls.voteOptionId.value)"
+)
+  div.form-check(*ngFor="let option of debate.payload.options")
+    input.form-check-input([id]="option._id", [name]="voteOptionId", [value]="option._id", type="radio", formControlName="voteOptionId")
+    label.form-check-label([for]="option._id") {{option.reason}}
+
+  button.btn.btn-block.btn-primary.mt-3(
+    type="submit", [disabled]="!voteForm.valid"
+  ) VOTEAZA
+
+ng-template(#pollResultsWidget)
+  small Ai votat deja in acest sondaj
+  div.poll-result.progress.my-1(
+    *ngFor="let result of pollResults", style="height: 2rem",
+    [ngClass]=`{
+      selected: isSelectedOption(result._id)
+    }`
+  )
+    div.progress-bar.progress-bar-striped.progress-bar-animated(
+      role="progress", [attr.aria-valuenow]="result.count",
+      aria-valuemin="0", [attr.aria-valuemax]="debate.payload.votes.count",
+
+      [ngStyle]=`{
+        width: (result.count * 100 / debate.payload.votes.count || 1) + '%'
+      }`
+    )
+      div.d-flex
+        strong.ml-1 {{ (result.count * 100 / debate.payload.votes.count).toFixed() || 0 }} %
+        span.text-nowrap.text-truncate.ml-2  {{result.name}}

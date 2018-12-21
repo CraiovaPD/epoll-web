@@ -34,6 +34,21 @@
       "type": "node",
       "request": "launch",
       "console": "integratedTerminal",
+      "name": "Launch Program Public Config",
+      "program": "${workspaceFolder}/src/main.ts",
+      "sourceMaps": true,
+      "outFiles": [
+        "${workspaceFolder}/build/**"
+      ],
+      "args": [
+        "--config-file-path",
+        "../epoll-web.conf.public.json"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "console": "integratedTerminal",
       "name": "Launch Program Universal",
       "program": "${workspaceFolder}/build/main.js",
       "sourceMaps": true,
