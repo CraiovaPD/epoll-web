@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import moment from 'moment';
 
@@ -31,6 +31,7 @@ const SHARE_HASHTAG = '#CraiovaPD';
   ]
 })
 export class PollDebateComponent implements IDebateComponent, OnInit {
+  public vote$ = new Subject<string>();
   public debate: IDebate<IPollDebate> | undefined;
   public user$: Observable<IUser | undefined>; // currently logged in user
   public isEditor$: Observable<boolean>;
@@ -64,7 +65,13 @@ export class PollDebateComponent implements IDebateComponent, OnInit {
   setDebate (debate: IDebate<any>): void {
     this.debate = debate;
     this.isEditor$ = this.user$.pipe(map(
-      user => user ? user._id === debate.createdBy : false
+      user => {
+        if (!user) return false;
+        if (user._id === debate.createdBy) return true;
+        // if (user.isAdmin) return true;
+
+        return false;
+      }
     ));
   }
 
@@ -79,15 +86,8 @@ export class PollDebateComponent implements IDebateComponent, OnInit {
   /**
    * Add a vote on this poll.
    */
-  async vote (debate: IDebate<any>, optionId: string) {
-    try {
-      await this._debates.voteOnPoll({
-        pollId: debate._id,
-        selectedOptionId: optionId
-      }).toPromise();
-    } catch (error) {
-      this._errors.dispatch(error);
-    }
+  async vote (optionId: string) {
+    this.vote$.next(optionId);
   }
 
   /**

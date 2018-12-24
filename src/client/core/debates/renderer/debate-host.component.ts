@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { IDebate } from '../../../types/debates/IDebate';
 
 /**
@@ -16,6 +16,7 @@ import { IDebate } from '../../../types/debates/IDebate';
 })
 export class DebateHostComponent implements OnInit {
   @Input() public debate: IDebate<any> | undefined;
+  @Output() public voteAdded = new EventEmitter();
 
   /**
    * Class constructor

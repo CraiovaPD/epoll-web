@@ -4,11 +4,12 @@ import {
 } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { ErrorUtil } from '../../../../util/helpers/errorUtil';
+
 // types
 import { IDebate, IPollDebate } from '../../../../types/debates/IDebate';
 import { IUser } from '../../../../types/users/IUser';
 import { IVote } from '../../../../types/debates/IVote';
-import { ErrorUtil } from '../../../../util/helpers/errorUtil';
 
 export interface IPollResult {
   _id: string,
@@ -37,7 +38,7 @@ export class PollVoteComponent implements OnInit {
   private _loggedInUser?: IUser;
   private _ownVote?: IVote;
 
-  @Input() public debate!: IDebate<IPollDebate>;
+  @Input() public _debate!: IDebate<IPollDebate>;
   @Output() public optionVoted = new EventEmitter();
   public voteForm: FormGroup;
   public hasNotVoted = false;
@@ -61,10 +62,15 @@ export class PollVoteComponent implements OnInit {
   @Input() public set user (value: IUser | undefined) {
     try {
       this._loggedInUser = value;
-      this._computeState(value);
+      this._computeState(value, this._debate);
     } catch (error) {
       this._errors.dispatch(error);
     }
+  }
+
+  @Input() public set debate (value: IDebate<IPollDebate>) {
+    this._debate = value;
+    this._computeState(this._loggedInUser, this._debate);
   }
 
   /**
@@ -79,22 +85,6 @@ export class PollVoteComponent implements OnInit {
   submitVote (optionId: string) {
     if (confirm('Esti sigur ca vrei sa alegi aceasta optiune?')) {
       this.optionVoted.emit(optionId);
-
-      // mark poll as voted
-      this.hasNotVoted = false;
-
-      // add vote to counters
-      this.pollResults = this.pollResults.map(
-        res => {
-          if (res._id === optionId) {
-            return Object.assign({}, res, {
-              count: res.count + 1
-            });
-          }
-
-          return res;
-        }
-      );
     }
   }
 
@@ -104,7 +94,7 @@ export class PollVoteComponent implements OnInit {
   canEdit () : boolean {
     if (!this._loggedInUser) return false;
 
-    return this._loggedInUser._id === this.debate.createdBy;
+    return this._loggedInUser._id === this._debate.createdBy;
   }
 
   /**
@@ -120,10 +110,12 @@ export class PollVoteComponent implements OnInit {
   /**
    * Do initial computations.
    */
-  private _computeState (loggedInUser?: IUser) {
+  private _computeState (loggedInUser?: IUser, debate?: IDebate<IPollDebate>) {
+    if (!debate) return;
+
     // compute poll results
-    this.pollResults = this.debate.payload.options.map(option => {
-      let count = this.debate.payload.votes.data.reduce((sum: number, crt: IVote) => {
+    this.pollResults = debate.payload.options.map(option => {
+      let count = debate.payload.votes.data.reduce((sum: number, crt: IVote) => {
         return sum + (crt.optionId === option._id ? 1 : 0);
       }, 0);
 
@@ -136,13 +128,13 @@ export class PollVoteComponent implements OnInit {
 
     // check if user has already voted
     let userId = loggedInUser ? loggedInUser._id : '';
-    this.hasNotVoted = !this.debate.payload.votes.data.some(
+    this.hasNotVoted = !debate.payload.votes.data.some(
       vote => vote.userId === userId
     );
 
     // determine own vote, if it exists
     if (userId) {
-      this._ownVote = this.debate.payload.votes.data.find(
+      this._ownVote = debate.payload.votes.data.find(
         vote => vote.userId === userId
       );
     }

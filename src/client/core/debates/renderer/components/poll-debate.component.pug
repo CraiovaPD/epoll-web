@@ -54,7 +54,7 @@ ng-template(#poll)
   epoll-poll-vote(
     [debate]="debate",
     [user]="user$ | async",
-    (optionVoted)="vote(debate, $event)"
+    (optionVoted)="vote($event)"
   )
 
 ng-template(#social)

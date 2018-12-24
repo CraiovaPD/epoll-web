@@ -1,4 +1,5 @@
 import { IDebate } from '../../../../types/debates/IDebate';
+import { Observable } from 'rxjs';
 
 /**
  * Interface to a Debate rendering component.
@@ -6,6 +7,7 @@ import { IDebate } from '../../../../types/debates/IDebate';
  * @author Dragos Sebestin
  */
 export interface IDebateComponent {
+  vote$: Observable<string>;
 
   /**
    * Set debate data.
