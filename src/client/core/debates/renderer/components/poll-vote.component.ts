@@ -42,6 +42,7 @@ export class PollVoteComponent implements OnInit {
   @Output() public optionVoted = new EventEmitter();
   public voteForm: FormGroup;
   public hasNotVoted = false;
+  public canVote = false;
   public pollResults: IPollResult[] = [];
 
   /**
@@ -61,6 +62,7 @@ export class PollVoteComponent implements OnInit {
    */
   @Input() public set user (value: IUser | undefined) {
     try {
+      this.canVote = !!value;
       this._loggedInUser = value;
       this._computeState(value, this._debate);
     } catch (error) {

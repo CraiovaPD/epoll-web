@@ -1,5 +1,5 @@
 form(
-  *ngIf="hasNotVoted; else pollResultsWidget",
+  *ngIf="hasNotVoted && canVote; else pollResultsWidget",
   [formGroup]="voteForm", (ngSubmit)="submitVote(voteForm.controls.voteOptionId.value)"
 )
   div.form-check(*ngFor="let option of _debate.payload.options")
@@ -11,7 +11,13 @@ form(
   ) VOTEAZA
 
 ng-template(#pollResultsWidget)
-  small Ai votat deja in acest sondaj
+  small(
+    *ngIf="!hasNotVoted"
+  ) Ai votat deja in acest sondaj
+  small(
+    *ngIf="!canVote"
+  ) Pentru a putea vota trebuie sa te
+    a(routerLink="/login")  autentifici
   div.poll-result.progress.my-2(
     *ngFor="let result of pollResults",
     [ngClass]=`{
@@ -23,10 +29,10 @@ ng-template(#pollResultsWidget)
       aria-valuemin="0", [attr.aria-valuemax]="_debate.payload.votes.count",
 
       [ngStyle]=`{
-        width: (result.count * 100 / _debate.payload.votes.count || 1) + '%'
+        width: (result.count * 100 / (_debate.payload.votes.count || 1)) + '%'
       }`
     )
     div.poll-result-text.d-flex.justify-content-center.flex-column
       div.d-flex.justify-content-between.px-2
         strong {{result.name}}
-        strong.text-nowrap.ml-1 {{ (result.count * 100 / _debate.payload.votes.count).toFixed() || 0 }} %
+        strong.text-nowrap.ml-1 {{ (result.count * 100 / (_debate.payload.votes.count || 1)).toFixed() }} %

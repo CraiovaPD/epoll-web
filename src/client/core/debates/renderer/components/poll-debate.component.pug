@@ -12,7 +12,6 @@ div(*ngIf="!!debate; else loading")
 
   div(*ngIf="!!debate; then filesList")
   div(*ngIf="!!debate; then poll")
-  hr
   div(*ngIf="!!debate; then social")
 
 //- // TEMPLATES
@@ -58,10 +57,11 @@ ng-template(#poll)
   )
 
 ng-template(#social)
-  h2.h5.mt-2 Distribuie
-  a.social-icon(href="", (click)="$event.preventDefault(); facebookShare(debate)")
-    i.fab.fa-facebook-square
-  a.social-icon.ml-4(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
-    i.fab.fa-instagram
-  a.social-icon.ml-4(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
-    i.fab.fa-whatsapp
+  h2.h6.mt-3.text-center Distribuie
+  section.d-flex.justify-content-center
+    a.social-icon.mx-2(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
+      i.fab.fa-whatsapp
+    a.social-icon.mx-2(href="", (click)="$event.preventDefault(); facebookShare(debate)")
+      i.fab.fa-facebook-square
+    a.social-icon.mx-2(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
+      i.fab.fa-instagram
