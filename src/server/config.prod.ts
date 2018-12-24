@@ -36,7 +36,7 @@ export default function config (app: express.Express) {
 
   // exclude client-side routes from SSR
   app.get([
-    '/404',
+    '/404', '/login'
   ], async (req, res) => {
     req;
     res.sendFile(path.join(__dirname, '../client/index.html'));
@@ -45,6 +45,8 @@ export default function config (app: express.Express) {
   // server rendered routes
   app.get([
     '/',
+    '/u/**',
+    '/debates/**'
   ], (req, res) => {
     try {
       res.render('index', {req});
@@ -61,7 +63,7 @@ export default function config (app: express.Express) {
     maxAge: 30 * 24 * 60 * 60 * 1000
   }));
 
-  // serve index for everything else
+  // serve index for root
   app.get('/', (req, res) => {
     req;
     res.sendFile(path.join(__dirname, '../client/index.html'));
