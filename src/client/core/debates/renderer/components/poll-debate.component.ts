@@ -1,4 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -13,7 +14,7 @@ import { DebateService } from '../../debate.service';
 import { IAttachment } from '../../../../types/debates/IAttachment';
 import { ErrorUtil } from '../../../../util/helpers/errorUtil';
 import { IAppState } from '../../../../store/IApp';
-import { IUser } from 'epoll-api-sdk/build/types/users/IUser';
+import { IUser } from '../../../../types/users/IUser';
 
 const SHARE_HASHTAG = '#CraiovaPD';
 
@@ -43,7 +44,8 @@ export class PollDebateComponent implements IDebateComponent, OnInit {
     private _errors: ErrorUtil,
     private _debates: DebateService,
     private _store: Store<IAppState>,
-    @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig
+    @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig,
+    private _router: Router
   ) {
     this.user$ = this._store.select(x => x.profile);
     this.isEditor$ = this.user$.pipe(map(() => false));
@@ -98,7 +100,7 @@ export class PollDebateComponent implements IDebateComponent, OnInit {
 `
 ${debate.payload.title}
 
-${window.location.href}
+${this._router.url}
 `
     );
   }
