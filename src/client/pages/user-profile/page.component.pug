@@ -13,6 +13,13 @@ main.container
       div.row
         div.col-4.mb-1(*ngFor="let badge of badges")
           div.badge.mx-auto
+
+footer.container-fluid.mt-3
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      epoll-copyright-footer
+
+//- page template defs
 ng-template(#ownProfile)
   h1.h3.mt-3 Salut, {{user.firstname}}!
 
@@ -56,8 +63,3 @@ ng-template(#publicProfile)
     li A participat in 0 sondaje.
     li A citit 4 comunicate.
     li A actualizat 3 sondaje.
-
-footer.container-fluid.p-0.mt-3
-  div.row
-    div.col-12.col-md-9.col-lg-6.mx-auto
-      epoll-copyright-footer
