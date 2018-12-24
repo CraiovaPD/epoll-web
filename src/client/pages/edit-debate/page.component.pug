@@ -17,10 +17,8 @@ footer.container-fluid.mt-3
       epoll-copyright-footer
 
 ng-template(#_tfPage)
-  //- section#editorActions.my-3
-    a.d-block.btn.btn-primary(
-      routerLink="debates/add"
-    ) ADAUGĂ SONDAJ
+  section#editorActions.my-3
+    a.d-block.btn.btn-primary ADAUGĂ SONDAJ
     a.d-block.btn.btn-default ADAUGĂ COMUNICARE NOUĂ
   h1.h2.mt-2 Opinia ta despre...
   epoll-poll-list([polls]="polls$ | async")

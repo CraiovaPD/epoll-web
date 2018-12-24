@@ -18,6 +18,9 @@ import { DebatePageResolver } from './debate-details/page.resolver';
 import { LoginPageComponent } from './login/page.component';
 import { UserProfilePageComponent } from './user-profile/page.component';
 import { UserProfilePageResolver } from './user-profile/page.resolver';
+import { EditDebatePageComponent } from './edit-debate/page.component';
+import { EditDebatePageResolver } from './edit-debate/page.resolver';
+import { AddNewDebatePageComponent } from './add-new-debate/page.component';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
@@ -30,8 +33,12 @@ export const ROUTES: Route[] = [{
   path: 'u/:id', component: UserProfilePageComponent,
   resolve: {pageData: UserProfilePageResolver}
 }, {
+  path: 'debates/add', component: AddNewDebatePageComponent
+}, {
   path: 'debates/:id', component: DebateDetailsPageComponent,
   resolve: {pageData: DebatePageResolver}
+}, {
+  path: 'debates/:id/edit', component: EditDebatePageComponent
 }, {
   path: '**', redirectTo: '404'
 }];
@@ -49,7 +56,8 @@ export const ROUTES: Route[] = [{
     HomePageResolver,
     AuthGuard,
     DebatePageResolver,
-    UserProfilePageResolver
+    UserProfilePageResolver,
+    EditDebatePageResolver
   ],
   declarations: [
     // pages
@@ -57,7 +65,9 @@ export const ROUTES: Route[] = [{
     HomePageComponent,
     DebateDetailsPageComponent,
     LoginPageComponent,
-    UserProfilePageComponent
+    UserProfilePageComponent,
+    EditDebatePageComponent,
+    AddNewDebatePageComponent
   ],
   exports: [
 
