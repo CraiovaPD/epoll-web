@@ -22,7 +22,6 @@ import { IUserProfile } from '../../../store/users/IUserProfile';
   ]
 })
 export class NavbarUserMenuComponent implements OnInit {
-  public isAuthenticated = false;
   public userProfile$: Observable<IUserProfile | undefined>;
 
   /**

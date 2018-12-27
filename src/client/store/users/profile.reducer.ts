@@ -10,7 +10,7 @@ export function userProfileReducer (
 ): IUserProfile | undefined {
   switch (action.type) {
     case ProfileActionTypes.SET: {
-      return (action as SetProfile).payload || state;
+      return (action as SetProfile).payload;
     }
 
     default:

@@ -17,7 +17,9 @@ footer.container-fluid.mt-3
       epoll-copyright-footer
 
 ng-template(#_tfPage)
-  section#editorActions.my-3
+  section#editorActions.my-3(
+    *ngIf="isAdmin$ | async"
+  )
     a.d-block.btn.btn-primary(
       routerLink="debates/add"
     ) ADAUGĂ SONDAJ

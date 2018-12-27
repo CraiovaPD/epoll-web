@@ -1,0 +1,47 @@
+@import './colors';
+
+// progress bars
+.progress
+  background-color $grayColor
+  border-radius 0
+  min-height 3.5rem
+.progress.selected
+  background-color $grayDarkColor
+  color $white
+
+.progress-bar
+  background-color $primaryColor
+
+// stickers
+.sticker
+  margin 0 -15px
+  background-color $bgLightColor
+  display flex
+
+// stickers
+.sticker-success
+  background-color $successColor
+  color $grayDarkColor
+.sticker-danger
+  background-color $dangerColor
+  color $white
+
+.sticker-title
+  font-weight bold
+
+.sticker-text
+  font-size: .75rem
+
+.sticker-icon
+  fill $grayDarkColor
+
+// various elements
+.epol-divider
+  width 100%
+  display flex
+  justify-content center
+  margin 1rem 0
+.epol-divider:after
+  content ''
+  border 1px solid #999CA1
+  width 60%

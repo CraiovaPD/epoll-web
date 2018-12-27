@@ -1,0 +1,22 @@
+@import './colors';
+
+.btn
+  border-radius 10px
+  font-weight bold
+
+.btn-primary
+  background-color $primaryColor
+.btn-primary:focus, .btn-primary:active
+  background-color $primaryColorDark
+
+.btn-secondary
+  background-color $secondaryColor
+  color $white
+.btn-secondary:focus, .btn-secondary:active
+  background-color $secondaryColorDark
+
+.btn-default
+  background-color transparent
+  color $secondaryColor
+.btn-default:focus, .btn-default:active
+  color $secondaryColorDark

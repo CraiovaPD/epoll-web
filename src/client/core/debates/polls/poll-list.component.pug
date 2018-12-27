@@ -1,6 +1,13 @@
-div.d-flex.poll-container.py-2(*ngFor="let poll of polls")
-  h2.poll-title.col-8
-    a(href="", [routerLink]="['/debates', poll._id]") {{poll.payload.title}}
+a.d-flex.poll-container.py-2.mb-2(
+  *ngFor="let poll of polls",
+  href="", [routerLink]="['/debates', poll._id]"
+)
+  div.poll-title.col-8
+    p {{poll.title}}
   div.col-4.text-right
-    p.poll-vote-counter.m-0 {{poll.payload.votes.count}}
+    p.poll-vote-counter.m-0(
+      [ngClass]=`{
+        'text-secondary': poll.state === 0
+      }`
+    ) {{poll.payload.votes.count}}
     p.m-0 voturi

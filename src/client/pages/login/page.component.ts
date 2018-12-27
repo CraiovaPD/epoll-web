@@ -8,6 +8,9 @@ import { UserService } from '../../core/users/user.service';
 import { AccountKitService } from '../../core/users/accountKit.service';
 import { ErrorUtil } from '../../util/helpers/errorUtil';
 import { WizardHostComponent } from '../../util/component/wizard-host/wizard-host.component';
+import { Subscription } from 'rxjs';
+import { skip } from 'rxjs/operators';
+import { LocalStorage } from '../../util/storage/localStorage';
 
 /**
  * Component used for displaying the Login page.
@@ -24,6 +27,7 @@ import { WizardHostComponent } from '../../util/component/wizard-host/wizard-hos
 export class LoginPageComponent implements OnInit {
   @ViewChild(WizardHostComponent) private _wizardHost!: WizardHostComponent;
   private _lastAkCode: string = '';
+  private _subscription?: Subscription;
 
   public phoneForm: FormGroup;
   public newUserProfileForm: FormGroup;
@@ -40,6 +44,7 @@ export class LoginPageComponent implements OnInit {
     private _users: UserService,
     private _akService: AccountKitService,
     private _router: Router,
+    private _localStorage: LocalStorage,
     formBuilder: FormBuilder
   ) {
     this.phoneForm = formBuilder.group({
@@ -64,7 +69,27 @@ export class LoginPageComponent implements OnInit {
    * Angular lifecycle hooks.
    */
   ngOnInit () {
+    this._subscription = this._users.getProfile().pipe(skip(1))
+      .subscribe(profile => {
+        if (profile) {
+          let redirectPage = this._localStorage.getItem('login-redirect-url');
+          if (redirectPage) {
+            this._localStorage.clear('login-redirect-url');
+            if (redirectPage === '/login')
+              return this._router.navigateByUrl('/');
 
+            return window.location.href = redirectPage;
+          }
+
+          return this._router.navigateByUrl('/');
+        }
+      });
+  }
+
+  ngOnDestroy () {
+    if (this._subscription) {
+      this._subscription.unsubscribe();
+    }
   }
 
   /**
@@ -75,7 +100,6 @@ export class LoginPageComponent implements OnInit {
       let phone = this.phoneForm.controls.phone.value;
       this._lastAkCode = await this._akService.login('+40', phone);
       await this._users.authenticate(this._lastAkCode);
-      this._router.navigate(['/']);
     } catch (exception) {
       if (exception instanceof ServerException) {
         let ex: ServerException = exception;
@@ -105,7 +129,6 @@ export class LoginPageComponent implements OnInit {
         firstname,
         lastname
       });
-      this._router.navigate(['/']);
     } catch (error) {
       this._errors.dispatch(error);
     }

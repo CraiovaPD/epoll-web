@@ -1,5 +1,5 @@
 div(*ngIf="!!debate; else loading")
-  h1.title {{debate.payload.title}}
+  h1.title {{debate.title}}
   div.flex.mt-1
     b {{debate.payload.votes.count}}
     span  voturi
@@ -7,8 +7,7 @@ div(*ngIf="!!debate; else loading")
     span  postat acum
     b  {{getAgoTime(debate)}}
 
-  div#content.my-4
-    span {{debate.payload.content}}
+  article#content.my-4 {{debate.content}}
 
   div(*ngIf="!!debate; then filesList")
   div(*ngIf="!!debate; then poll")
@@ -21,32 +20,11 @@ ng-template(#loading)
 ng-template(#filesList)
   h6 Fisiere atasate
   ul.list-unstyled
-    li.d-flex(*ngFor="let attachment of debate.payload.attachments")
-      div.col-11.p-0
-        a(href="{{attachment.file.downloadPath}}", target="_blank")
-          i.far.fa-file.mr-2
-          span {{attachment.file.originalName}}
-      div.col-1.p-0(
-        (click)="removeAttachment(debate, attachment)"
-      )
-        span.text-danger(
-          [ngClass]=`{
-            invisible: !(isEditor$ | async)
-          }`
-        )
-          i.fas.fa-times
-    li.mt-3(
-      [hidden]="!(isEditor$ | async)",
-      (click)="filePicker.click()"
-    )
-      i.fas.fa-plus-square
-      span.ml-2.pt-3 #[u Adauga atasament]
-      input.invisible(
-        #filePicker, epoll-file-picker,
-        type="file", auto-reset="true",
-        (onPick)="addAttachment(debate, $event)",
-        hidden="true"
-      )
+    li(*ngFor="let attachment of debate.payload.attachments")
+      a(href="{{attachment.file.downloadPath}}", target="_blank")
+        i.far.fa-file.mr-2
+        span {{attachment.file.originalName}}
+
 
 ng-template(#poll)
   h2.h5 Care este părerea ta?

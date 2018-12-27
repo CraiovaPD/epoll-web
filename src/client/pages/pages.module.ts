@@ -21,6 +21,8 @@ import { UserProfilePageResolver } from './user-profile/page.resolver';
 import { EditDebatePageComponent } from './edit-debate/page.component';
 import { EditDebatePageResolver } from './edit-debate/page.resolver';
 import { AddNewDebatePageComponent } from './add-new-debate/page.component';
+import { UserRoleGuard } from './common/role.guard';
+import { UserRole } from '../types/users/IUser';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
@@ -33,12 +35,17 @@ export const ROUTES: Route[] = [{
   path: 'u/:id', component: UserProfilePageComponent,
   resolve: {pageData: UserProfilePageResolver}
 }, {
-  path: 'debates/add', component: AddNewDebatePageComponent
+  path: 'debates/add', component: AddNewDebatePageComponent,
+  canActivate: [AuthGuard, UserRoleGuard],
+  data: {roles: [UserRole.root, UserRole.admin]}
 }, {
   path: 'debates/:id', component: DebateDetailsPageComponent,
   resolve: {pageData: DebatePageResolver}
 }, {
-  path: 'debates/:id/edit', component: EditDebatePageComponent
+  path: 'debates/:id/edit', component: EditDebatePageComponent,
+  canActivate: [AuthGuard, UserRoleGuard],
+  data: {roles: [UserRole.root, UserRole.admin]},
+  resolve: {pageData: EditDebatePageResolver}
 }, {
   path: '**', redirectTo: '404'
 }];
@@ -55,6 +62,7 @@ export const ROUTES: Route[] = [{
   providers: [
     HomePageResolver,
     AuthGuard,
+    UserRoleGuard,
     DebatePageResolver,
     UserProfilePageResolver,
     EditDebatePageResolver

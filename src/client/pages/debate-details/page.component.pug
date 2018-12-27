@@ -2,10 +2,17 @@ epoll-navbar
   div.col-12.col-md-9.col-lg-6.mx-auto.px-0
     div.d-flex.justify-content-between
       epoll-navbar-logo-button
+      epoll-navbar-user-menu
+
 
 main.container
   div.row
     div.col-12.col-md-9.col-lg-6.mx-auto.pt-3
+      div.d-flex.justify-content-between(
+        *ngIf="isEditor$ | async"
+      )
+        a([routerLink]="['/debates', debate._id, 'edit']") Editează
+
       epoll-debate-host(
         [debate]="debate"
       )

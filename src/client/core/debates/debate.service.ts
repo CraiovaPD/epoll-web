@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import EPollAPI from 'epoll-api-sdk';
 
 // types
-import { IDebatePollListItem, IDebate } from '../../types/debates/IDebate';
+import { IDebatePollListItem, IDebate, DebateState } from '../../types/debates/IDebate';
 import { IVote } from '../../types/debates/IVote';
 import { IAttachment } from '../../types/debates/IAttachment';
 
@@ -43,9 +43,14 @@ export class DebateService {
    * List polls.
    */
   listPolls (params: {
+    state?: {
+      from: DebateState,
+      to: DebateState
+    },
     limit?: number
   }) : Observable<IDebatePollListItem[]> {
     return EPollAPI.Debates().listPolls({
+      state: params.state,
       limit: params.limit
     });
   }
@@ -119,6 +124,21 @@ export class DebateService {
     return EPollAPI.Debates().removePollAttachment({
       pollId: params.pollId,
       attachmentId: params.attachmentId
+    });
+  }
+
+  /**
+   * Update a debate by id.
+   */
+  updateDebate (params: {
+    debateId: string,
+    newTitle: string,
+    newContent: string
+  }) {
+    return EPollAPI.Debates().updateDebate({
+      debateId: params.debateId,
+      newTitle: params.newTitle,
+      newContent: params.newContent
     });
   }
 }
