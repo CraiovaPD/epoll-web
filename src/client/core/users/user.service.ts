@@ -60,6 +60,7 @@ export class UserService {
       this.setProfile({
         _id: user._id,
         phone: user.phone,
+        role: user.role,
         firstname: user.firstname,
         lastname: user.lastname
       });
