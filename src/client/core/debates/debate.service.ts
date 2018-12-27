@@ -27,6 +27,19 @@ export class DebateService {
   ngOnInit () { }
 
   /**
+   * Create a new poll debate.
+   */
+  createNewPollDebate (params: {
+    title: string,
+    content: string
+  }) {
+    return EPollAPI.Debates().createNewPoll({
+      title: params.title,
+      content: params.content
+    });
+  }
+
+  /**
    * List polls.
    */
   listPolls (params: {
@@ -42,6 +55,32 @@ export class DebateService {
    */
   getPollById (id: string) : Observable<IDebate<any>> {
     return EPollAPI.Debates().getDebateById(id);
+  }
+
+  /**
+   * Add new vote option to a poll.
+   */
+  addPollVoteOption (params: {
+    pollId: string,
+    optionReason: string
+  }) {
+    return EPollAPI.Debates().addPollOption({
+      pollId: params.pollId,
+      reason: params.optionReason
+    });
+  }
+
+  /**
+   * Remove a vote option from a poll.
+   */
+  removePollVoteOption (params: {
+    pollId: string,
+    optionId: string
+  }) {
+    return EPollAPI.Debates().removePollOption({
+      pollId: params.pollId,
+      optionId: params.optionId
+    });
   }
 
   /**

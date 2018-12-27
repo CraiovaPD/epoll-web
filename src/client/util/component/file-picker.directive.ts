@@ -10,7 +10,7 @@ import {
 import {FormControl} from '@angular/forms';
 
 @Directive({
-  selector: '[nvb-file-picker]'
+  selector: '[epoll-file-picker]'
 })
 export class FilePickerDirective implements OnInit {
   @Input('form-control') formControl: FormControl;

@@ -42,7 +42,7 @@ ng-template(#filesList)
       i.fas.fa-plus-square
       span.ml-2.pt-3 #[u Adauga atasament]
       input.invisible(
-        #filePicker, nvb-file-picker,
+        #filePicker, epoll-file-picker,
         type="file", auto-reset="true",
         (onPick)="addAttachment(debate, $event)",
         hidden="true"

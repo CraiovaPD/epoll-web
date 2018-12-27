@@ -9,7 +9,8 @@ epoll-navbar
 main.container
   div.row
     div.col-12.col-md-9.col-lg-6.mx-auto
-      ng-container(*ngTemplateOutlet="_tfPage")
+      fieldset([disabled]="!isUIEnabled")
+        ng-container(*ngTemplateOutlet="_tfPage")
 
 footer.container-fluid.mt-3
   div.row
@@ -18,43 +19,63 @@ footer.container-fluid.mt-3
 
 ng-template(#_tfPage)
   h1.h3.mt-3 Sondaj Nou
-  form()
-    .form-group
-      label.form-control-label(for="title") TITLU
-      textarea.form-control(
-        id="title", name="title", rows="2"
-      )
-    .form-group
-      label.form-control-label(for="description") DESCRIERE
-      textarea.form-control(
-        id="description", name="description", rows="5"
-      )
+  .form-group
+    label.form-control-label(for="title") TITLU
+    textarea.form-control(
+      id="title", name="title", rows="2",
+      [(ngModel)]="title"
+    )
+  .form-group
+    label.form-control-label(for="description") DESCRIERE
+    textarea.form-control(
+      id="description", name="description", rows="5",
+      [(ngModel)]="content"
+    )
 
   h2.h3 Opţiuni Votare
   p Minim 2 opțiuni pentru votare. Câmpurile necompletate nu o să fie afișate.
 
-  .form-group
+  .form-group(*ngFor="let option of voteOptions; let i = index")
     input.form-control(
-      type="text", placeholder="ex: Nu mi se pare corect"
+      type="text",
+      [placeholder]="option.placeholder",
+      [(ngModel)]="option.text"
     )
-  .form-group
-    input.form-control(type="text")
 
   button.btn.btn-block.btn-default(
-
+    (click)="addEmptyVoteOption()"
   ) ADAUGĂ CÂMP NOU
 
   h2.h3 Atașare fișiere
   p Doar fisierele de tip PDF, PNG si JPG sunt acceptate.
-  button.btn.btn-block.btn-default(
 
-  ) ATAȘEAZĂ FIȘIER
+  ul.list-unstyled
+    li.d-flex(*ngFor="let file of files; let i = index")
+      div.col-11.p-0
+        a(href="#")
+          i.far.fa-file.mr-2
+          span {{file.name}}
+      div.col-1.p-0(
+        (click)="removeAttachment(i)"
+      )
+        span.text-danger
+          i.fas.fa-times
+  input.invisible(
+    #filePicker, epoll-file-picker,
+    type="file", auto-reset="true",
+    (onPick)="addAttachments($event)",
+    accept=".png, .jpg, .pdf",
+    multiple="true"
+  )
+  button.btn.btn-block.btn-default(
+    (click)="filePicker.click()"
+  ) ATAȘEAZĂ FIȘIERE
 
   div.epol-divider
 
   button.btn.btn-block.btn-primary(
-
+    (click)="createDebate()"
   ) CREAZĂ SONDAJ
-  button.btn.btn-block.btn-default(
-
+  a.btn.btn-block.btn-default(
+    routerLink="/"
   ) ANULEAZĂ
