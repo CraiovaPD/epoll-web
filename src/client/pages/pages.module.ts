@@ -44,7 +44,7 @@ export const ROUTES: Route[] = [{
 }, {
   path: 'debates/:id/edit', component: EditDebatePageComponent,
   canActivate: [AuthGuard, UserRoleGuard],
-  data: {roles: [UserRole.root, UserRole.admin]},
+  data: {roles: [UserRole.root, UserRole.admin, UserRole.moderator]},
   resolve: {pageData: EditDebatePageResolver}
 }, {
   path: '**', redirectTo: '404'
