@@ -61,14 +61,14 @@ export class DebateDetailsPageComponent implements OnInit, OnDestroy {
    */
   ngOnInit () {
     this._originalTitle = this._title.getTitle();
-    this._title.setTitle(this.debate.payload.title);
+    this._title.setTitle(this.debate.title);
 
     let foundTag = this._meta.getTag('description');
     if (foundTag) {
       this._originalDescription = foundTag.content;
     }
     this._meta.updateTag({
-      name: 'description', content: this.debate.payload.content
+      name: 'description', content: this.debate.content
     }, `name='description'`);
   }
 

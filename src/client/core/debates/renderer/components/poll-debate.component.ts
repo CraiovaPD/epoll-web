@@ -96,7 +96,7 @@ ${this._router.url}
   facebookShare (debate: IDebate<any>) {
     if (this.debate) {
       let pageUrl = encodeURIComponent(window.location.href);
-      let shareQuote = encodeURIComponent(debate.payload.title);
+      let shareQuote = encodeURIComponent(debate.title);
       let shareTag = encodeURIComponent(SHARE_HASHTAG);
       /* tslint:disable */
       let shareUrl = `https://www.facebook.com/dialog/share?app_id=${this._env.facebook.appId}&display=popup&href=${pageUrl}&quote=${shareQuote}&hashtag=${shareTag}`;
