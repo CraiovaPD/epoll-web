@@ -7,9 +7,6 @@ import EPollErrors from 'epoll-errors';
 import { Subscription } from 'rxjs';
 import { setLocale } from 'exceptional.js';
 
-import { UserService } from './core/users/user.service';
-import { ErrorUtil } from './util/helpers/errorUtil';
-
 // set moment locale to ro
 moment.locale('ro');
 
@@ -30,8 +27,6 @@ export class AppComponent implements OnInit, OnDestroy {
    */
   constructor (
     private _router: Router,
-    private _userService: UserService,
-    private _errors: ErrorUtil,
     @Inject(PLATFORM_ID) private _platformId: Object
   ) {
   }
@@ -48,12 +43,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this._subscription = this._router.events
         .filter((event: any) => event instanceof NavigationEnd)
         .subscribe(() => window.scroll(0, 0));
-    }
-
-    try {
-      await this._userService.loadProfile();
-    } catch (error) {
-      this._errors.dispatch(error);
     }
   }
 

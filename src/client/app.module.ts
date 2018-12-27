@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { StoreModule } from '@ngrx/store';
+import { StoreModule, Store } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import EPollAPI from 'epoll-api-sdk';
 
@@ -28,12 +28,14 @@ import { ToastNotificationsService } from './util/component/toast-notifications/
 import {
   ENVIRONMENT_CONFIG, IEnvironmentConfig, IServerConfig
 } from './environment.config';
+import { SetProfile } from './store/users/profile.actions';
 
 export function init (
   localStorage: LocalStorage,
   http: HttpClient,
   sdkApiClient: EPollApiSdkHttpClient,
   env: IEnvironmentConfig,
+  store: Store<IAppState>
 ) {
   return async () => {
     let serverConfig = await http.get(`/config?cache-buster=${new Date().toISOString()}`).toPromise() as IServerConfig;
@@ -46,6 +48,8 @@ export function init (
     if (jwt) {
       let jwtType = localStorage.getItem(JWT_TYPE_STORAGE_KEY);
       EPollAPI.startSession(jwtType, jwt);
+      let user = await EPollAPI.Users().getMyUserProfile().toPromise();
+      store.dispatch(new SetProfile(user));
     }
   };
 }
@@ -85,7 +89,7 @@ export function getInitialState () {
     }, multi: true},
     {provide: APP_INITIALIZER, useFactory: init, deps: [
       LocalStorage, HttpClient, EPollApiSdkHttpClient,
-      ENVIRONMENT_CONFIG,
+      ENVIRONMENT_CONFIG, Store
     ], multi: true},
 
     UserService,
