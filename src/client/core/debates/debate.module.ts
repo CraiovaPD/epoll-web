@@ -10,6 +10,8 @@ import { PollDebateComponent } from './renderer/components/poll-debate.component
 import { DebateDirective } from './renderer/debate.directive';
 import { DebateFactoryService } from './renderer/debate-factory.service';
 import { PollVoteComponent } from './renderer/components/poll-vote.component';
+import { AnouncementListComponent } from './anouncements/anouncement-list.component';
+import { AnouncementDebateComponent } from './renderer/components/anouncement-debate.component';
 
 @NgModule({
   imports: [
@@ -25,14 +27,18 @@ import { PollVoteComponent } from './renderer/components/poll-vote.component';
     DebateHostComponent,
     PollDebateComponent,
     DebateDirective,
-    PollVoteComponent
+    PollVoteComponent,
+    AnouncementListComponent,
+    AnouncementDebateComponent
   ],
   exports: [
     PollListComponent,
-    DebateHostComponent
+    DebateHostComponent,
+    AnouncementListComponent
   ],
   entryComponents: [
-    PollDebateComponent
+    PollDebateComponent,
+    AnouncementDebateComponent
   ]
 })
 export class DebateModule {}

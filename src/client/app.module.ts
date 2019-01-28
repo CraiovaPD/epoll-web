@@ -55,7 +55,8 @@ export function init (
 }
 
 const initialState: IAppState = {
-  profile: undefined
+  profile: undefined,
+  activeDebate: undefined
 };
 export function getInitialState () {
   return {...initialState};

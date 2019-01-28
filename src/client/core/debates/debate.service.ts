@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import EPollAPI from 'epoll-api-sdk';
 
 // types
-import { IDebatePollListItem, IDebate, DebateState } from '../../types/debates/IDebate';
+import { IDebatePollListItem, IDebate, DebateState, IDebateAnouncementListItem } from '../../types/debates/IDebate';
 import { IVote } from '../../types/debates/IVote';
 import { IAttachment } from '../../types/debates/IAttachment';
 
@@ -139,6 +139,22 @@ export class DebateService {
       debateId: params.debateId,
       newTitle: params.newTitle,
       newContent: params.newContent
+    });
+  }
+
+  /**
+   * List anouncements.
+   */
+  listAnouncements (params: {
+    state?: {
+      from: DebateState,
+      to: DebateState
+    },
+    limit?: number
+  }) : Observable<IDebateAnouncementListItem[]> {
+    return EPollAPI.Debates().listAnouncements({
+      state: params.state,
+      limit: params.limit
     });
   }
 }
