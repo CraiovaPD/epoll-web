@@ -2,7 +2,8 @@ import { Injectable, Type } from '@angular/core';
 
 import { PollDebateComponent } from './components/poll-debate.component';
 import { IDebateComponent } from './components/IDebateComponent';
-import { IDebate } from '../../../types/debates/IDebate';
+import { IDebate, DebateType } from '../../../types/debates/IDebate';
+import { AnouncementDebateComponent } from './components/anouncement-debate.component';
 
 /**
  * Class used for instantiating Debate concrete components.
@@ -20,8 +21,12 @@ export class DebateFactoryService {
   /**
    * Create a new debate component.
    */
-  getComponent (type: IDebate<any>) : Type<IDebateComponent> {
-    switch (type) {
+  getComponent (debate: IDebate<any>) : Type<IDebateComponent> {
+    switch (debate.type) {
+      case DebateType.poll:
+        return PollDebateComponent;
+      case DebateType.anouncement:
+        return AnouncementDebateComponent;
       default:
         return PollDebateComponent;
     }

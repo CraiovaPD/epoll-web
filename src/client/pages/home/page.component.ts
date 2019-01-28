@@ -5,11 +5,10 @@ import { map, switchMap } from 'rxjs/operators';
 
 import { IAppState } from '../../store/IApp';
 import { ErrorUtil } from '../../util/helpers/errorUtil';
-import { AccountKitService } from '../../core/users/accountKit.service';
 import { DebateService } from '../../core/debates/debate.service';
 
 // types
-import { IDebatePollListItem, DebateState } from '../../types/debates/IDebate';
+import { IDebatePollListItem, DebateState, IDebateAnouncementListItem } from '../../types/debates/IDebate';
 import { UserRole } from '../../types/users/IUser';
 
 /**
@@ -27,6 +26,7 @@ import { UserRole } from '../../types/users/IUser';
 })
 export class HomePageComponent implements OnInit, OnDestroy {
   public polls$: Observable<IDebatePollListItem[]>;
+  public anouncements$: Observable<IDebateAnouncementListItem[]>;
   public isAdmin$: Observable<boolean>;
 
   /**
@@ -35,7 +35,6 @@ export class HomePageComponent implements OnInit, OnDestroy {
   constructor (
     private _errors: ErrorUtil,
     private _store: Store<IAppState>,
-    private _akService: AccountKitService,
     private _debateService: DebateService
   ) {
     this.isAdmin$ = this._store.select(s => s.profile)
@@ -44,6 +43,13 @@ export class HomePageComponent implements OnInit, OnDestroy {
     }));
 
     this.polls$ = this.isAdmin$.pipe(switchMap(isAdmin => this._debateService.listPolls({
+      state: {
+        from: isAdmin ? DebateState.draft : DebateState.published,
+        to: DebateState.unpublished
+      },
+      limit: 5
+    })));
+    this.anouncements$ = this.isAdmin$.pipe(switchMap(isAdmin => this._debateService.listAnouncements({
       state: {
         from: isAdmin ? DebateState.draft : DebateState.published,
         to: DebateState.unpublished
@@ -64,17 +70,5 @@ export class HomePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy () {
-  }
-
-  /**
-   * Login via AK.
-   */
-  async loginAK () {
-    try {
-      let token = await this._akService.login('', '');
-      console.log(token);
-    } catch (err) {
-      this._errors.dispatch(err);
-    }
   }
 }

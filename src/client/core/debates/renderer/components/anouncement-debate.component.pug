@@ -1,0 +1,35 @@
+div(*ngIf="!!debate; else loading")
+  h1.title {{debate.title}}
+  div.flex.mt-1
+    b {{debate.payload.votes.count}}
+    span  voturi
+    b  •
+    span  postat acum
+    b  {{getAgoTime(debate)}}
+
+  article#content.my-4 {{debate.content}}
+
+  div(*ngIf="!!debate; then filesList")
+  div(*ngIf="!!debate; then social")
+
+//- // TEMPLATES
+ng-template(#loading)
+  p.my-5 Se incarca
+
+ng-template(#filesList)
+  h6 Fisiere atasate
+  ul.list-unstyled
+    li(*ngFor="let attachment of debate.payload.attachments")
+      a(href="{{attachment.file.downloadPath}}", target="_blank")
+        i.far.fa-file.mr-2
+        span {{attachment.file.originalName}}
+
+ng-template(#social)
+  h2.h6.mt-3.text-center Distribuie
+  section.d-flex.justify-content-center
+    a.social-icon.mx-2(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
+      i.fab.fa-whatsapp
+    a.social-icon.mx-2(href="", (click)="$event.preventDefault(); facebookShare(debate)")
+      i.fab.fa-facebook-square
+    a.social-icon.mx-2(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
+      i.fab.fa-instagram

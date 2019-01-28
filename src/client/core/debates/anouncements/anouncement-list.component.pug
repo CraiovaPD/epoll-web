@@ -1,0 +1,9 @@
+a.d-flex.anouncement-container.py-2.mb-2(
+  *ngFor="let anouncement of anouncements",
+  href="", [routerLink]="['/debates', anouncement._id]"
+)
+  div.anouncement-title.col-1.text-center
+    p.anouncement-date-day.m-0 {{getDayFromDate(anouncement.createdAt)}}
+    p.anouncement-date-month.m-0 {{getMonthFromDate(anouncement.createdAt)}}
+  div.anouncement-title.col-11
+    p {{anouncement.title}}
