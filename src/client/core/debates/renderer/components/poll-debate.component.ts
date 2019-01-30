@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -44,7 +43,6 @@ export class PollDebateComponent implements IDebateComponent, OnInit {
     private _errors: ErrorUtil,
     private _store: Store<IAppState>,
     @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig,
-    private _router: Router,
     private _debates: DebateService
   ) {
     this.user$ = this._store.select(x => x.profile);
@@ -86,9 +84,9 @@ export class PollDebateComponent implements IDebateComponent, OnInit {
   encodeWhatsappMessage (debate: IDebate<any>) : string {
     return encodeURIComponent(
 `
-${debate.payload.title}
+${debate.title}
 
-${this._router.url}
+${window.location.href}
 `
     );
   }

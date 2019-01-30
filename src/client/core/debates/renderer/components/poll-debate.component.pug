@@ -37,7 +37,7 @@ div(*ngIf="debate$ | async as debate; else loading")
         i.fab.fa-whatsapp
       a.social-icon.mx-2(href="", (click)="$event.preventDefault(); facebookShare(debate)")
         i.fab.fa-facebook-square
-      a.social-icon.mx-2(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
+      //- a.social-icon.mx-2(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
         i.fab.fa-instagram
 
 ng-template(#loading)

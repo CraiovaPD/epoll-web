@@ -1,5 +1,4 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import moment from 'moment';
@@ -29,7 +28,7 @@ const SHARE_HASHTAG = '#CraiovaPD';
   ]
 })
 export class AnouncementDebateComponent implements IDebateComponent, OnInit {
-  public debate: IDebate<IAnouncementDebate> | undefined;
+  public debate$: Observable<IDebate<IAnouncementDebate> | undefined>;
   public user$: Observable<IUser | undefined>; // currently logged in user
 
   /**
@@ -38,10 +37,10 @@ export class AnouncementDebateComponent implements IDebateComponent, OnInit {
   constructor (
     private _errors: ErrorUtil,
     private _store: Store<IAppState>,
-    @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig,
-    private _router: Router
+    @Inject(ENVIRONMENT_CONFIG) private _env: IEnvironmentConfig
   ) {
     this.user$ = this._store.select(x => x.profile);
+    this.debate$ = this._store.select(x => x.activeDebate).filter(x => !!x);
   }
 
   /**
@@ -52,13 +51,6 @@ export class AnouncementDebateComponent implements IDebateComponent, OnInit {
     } catch (error) {
       this._errors.dispatch(error);
     }
-  }
-
-  /**
-   * IDebateComponent interface methods.
-   */
-  setDebate (debate: IDebate<any>): void {
-    this.debate = debate;
   }
 
   /**
@@ -75,9 +67,9 @@ export class AnouncementDebateComponent implements IDebateComponent, OnInit {
   encodeWhatsappMessage (debate: IDebate<any>) : string {
     return encodeURIComponent(
 `
-${debate.payload.title}
+${debate.title}
 
-${this._router.url}
+${window.location.href}
 `
     );
   }
@@ -86,7 +78,7 @@ ${this._router.url}
    * Share page on Facebok.
    */
   facebookShare (debate: IDebate<any>) {
-    if (this.debate) {
+    if (debate) {
       let pageUrl = encodeURIComponent(window.location.href);
       let shareQuote = encodeURIComponent(debate.title);
       let shareTag = encodeURIComponent(SHARE_HASHTAG);
