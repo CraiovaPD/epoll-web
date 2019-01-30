@@ -20,7 +20,7 @@ import { UserProfilePageComponent } from './user-profile/page.component';
 import { UserProfilePageResolver } from './user-profile/page.resolver';
 import { EditDebatePageComponent } from './edit-debate/page.component';
 import { EditDebatePageResolver } from './edit-debate/page.resolver';
-import { AddNewDebatePageComponent } from './add-new-debate/page.component';
+import { AddNewPollPageComponent } from './add-new-poll/page.component';
 import { UserRoleGuard } from './common/role.guard';
 import { UserRole } from '../types/users/IUser';
 import { AnouncementsListPageComponent } from './anouncements-list/page.component';
@@ -36,9 +36,11 @@ export const ROUTES: Route[] = [{
   path: 'u/:id', component: UserProfilePageComponent,
   resolve: {pageData: UserProfilePageResolver}
 }, {
-  path: 'debates/add', component: AddNewDebatePageComponent,
+  path: 'polls/add', component: AddNewPollPageComponent,
   canActivate: [AuthGuard, UserRoleGuard],
   data: {roles: [UserRole.root, UserRole.admin]}
+}, {
+  path: 'anouncements', component: AnouncementsListPageComponent
 }, {
   path: 'debates/:id', component: DebateDetailsPageComponent,
   resolve: {pageData: DebatePageResolver}
@@ -47,8 +49,6 @@ export const ROUTES: Route[] = [{
   canActivate: [AuthGuard, UserRoleGuard],
   data: {roles: [UserRole.root, UserRole.admin, UserRole.moderator]},
   resolve: {pageData: EditDebatePageResolver}
-}, {
-  path: 'anouncements', component: AnouncementsListPageComponent
 }, {
   path: '**', redirectTo: '404'
 }];
@@ -78,7 +78,7 @@ export const ROUTES: Route[] = [{
     LoginPageComponent,
     UserProfilePageComponent,
     EditDebatePageComponent,
-    AddNewDebatePageComponent,
+    AddNewPollPageComponent,
     AnouncementsListPageComponent
   ],
   exports: [

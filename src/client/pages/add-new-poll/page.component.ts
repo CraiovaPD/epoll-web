@@ -11,7 +11,7 @@ export interface IVoteOption {
 
 /**
  * Component used for displaying a page from
- * where a new debate can be created.
+ * where a new poll can be created.
  *
  * @author Dragos Sebestin
  */
@@ -22,7 +22,7 @@ export interface IVoteOption {
     'page.component.css'
   ]
 })
-export class AddNewDebatePageComponent implements OnInit, OnDestroy {
+export class AddNewPollPageComponent implements OnInit, OnDestroy {
   public title = '';
   public content = '';
   public files: File[] = [];
@@ -60,9 +60,9 @@ export class AddNewDebatePageComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Create a new debate.
+   * Create a new poll.
    */
-  async createDebate () {
+  async createPoll () {
     try {
       this._toggleUI(false);
       let poll = await this._debateService.createNewPollDebate({
