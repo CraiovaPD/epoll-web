@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import moment from 'moment';
 
-import { IDebateAnouncementListItem } from '../../../types/debates/IDebate';
+import { IDebateAnouncementListItem, DebateState } from '../../../types/debates/IDebate';
 
 /**
  * Component used for rendering a list of anouncements.
@@ -18,6 +18,7 @@ import { IDebateAnouncementListItem } from '../../../types/debates/IDebate';
 })
 export class AnouncementListComponent implements OnInit {
   @Input() anouncements: IDebateAnouncementListItem[] = [];
+  @Input() showState: boolean = false;
 
   /**
    * Class constructor.
@@ -42,5 +43,22 @@ export class AnouncementListComponent implements OnInit {
    */
   getMonthFromDate (date: Date) : string {
     return moment.utc(date).format('MMM');
+  }
+
+  /**
+   * Get debate state human readable label from date.
+   */
+  getStateLabel (state: DebateState) : string {
+    switch (state) {
+      case DebateState.draft:
+        return 'draft';
+      case DebateState.published:
+        return 'public';
+      case DebateState.unpublished:
+        return 'privat';
+
+      default:
+        return 'nu stim ce e';
+    }
   }
 }

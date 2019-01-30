@@ -27,12 +27,12 @@ ng-template(#_tfPage)
       routerLink="anouncements/add"
     ) ADAUGĂ COMUNICARE NOUĂ
   h1.h2.mt-2 Opinia ta despre...
-  epoll-poll-list([polls]="polls$ | async")
+  epoll-poll-list([polls]="polls$ | async", [showState]="isAdmin$ | async")
   div.text-center
     a(routerLink="polls") Vezi toate sondajele
 
   h1.h2.mt-3 Comunicari
-  epoll-anouncement-list([anouncements]="anouncements$ | async")
+  epoll-anouncement-list([anouncements]="anouncements$ | async", [showState]="isAdmin$ | async")
   div.text-center
     a(routerLink="anouncements") Vezi toate comunicarile
 

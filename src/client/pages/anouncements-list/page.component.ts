@@ -1,6 +1,6 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, switchMap, startWith, scan, flatMap, take } from 'rxjs/operators';
 
 import { IAppState } from '../../store/IApp';
@@ -27,7 +27,7 @@ export class AnouncementsListPageComponent implements OnInit, OnDestroy {
   public anouncements$: Observable<IDebateAnouncementListItem[]>;
   public isEditor$: Observable<boolean>;
 
-  private _loadStream$ = new BehaviorSubject<number>(0);
+  private _loadStream$ = new Subject<number>();
   private _cursor = ''; // id of the last anoucement
   private _canLoadMore = true;
   private _fromState = DebateState.published;
@@ -88,6 +88,8 @@ export class AnouncementsListPageComponent implements OnInit, OnDestroy {
         this._toState = DebateState.unpublished;
       }
 
+      // load first batch
+      this._loadStream$.next(0);
     } catch (error) {
       this._errors.dispatch(error);
     }

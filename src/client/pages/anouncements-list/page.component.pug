@@ -10,7 +10,10 @@ main.container
       epoll-infinite-scroll, (scroll)="loadMore()"
     )
       h1.h2.mt-3 Comunicari
-      epoll-anouncement-list([anouncements]="(anouncements$ | async)")
+      epoll-anouncement-list(
+        [anouncements]="(anouncements$ | async)",
+        [showState]="isEditor$ | async"
+      )
 
 footer.container-fluid.mt-3
   div.row

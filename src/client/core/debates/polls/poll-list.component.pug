@@ -11,3 +11,8 @@ a.d-flex.poll-container.py-2.mb-2(
       }`
     ) {{poll.payload.votes.count}}
     p.m-0 voturi
+    small.poll-state-label.m-0.px-1(*ngIf="showState", [ngClass]=`{
+      'bg-warning': poll.state === 0,
+      'bg-success': poll.state === 1,
+      'bg-secondary': poll.state === 2
+    }`) {{getStateLabel(poll.state)}}

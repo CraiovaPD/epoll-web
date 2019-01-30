@@ -1,10 +1,11 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { map, switchMap, startWith, scan, flatMap } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
+import { map, switchMap, startWith, scan, flatMap, take } from 'rxjs/operators';
 
 import { IAppState } from '../../store/IApp';
 import { DebateService } from '../../core/debates/debate.service';
+import { ErrorUtil } from '../../util/helpers/errorUtil';
 
 // types
 import { DebateState, IDebateAnouncementListItem } from '../../types/debates/IDebate';
@@ -26,14 +27,17 @@ export class PollsListPageComponent implements OnInit, OnDestroy {
   public polls$: Observable<IDebateAnouncementListItem[]>;
   public isEditor$: Observable<boolean>;
 
-  private _loadStream$ = new BehaviorSubject<number>(0);
+  private _loadStream$ = new Subject<number>();
   private _cursor = ''; // id of the last anoucement
   private _canLoadMore = true;
+  private _fromState = DebateState.published;
+  private _toState = DebateState.published;
 
   /**
    * Class constructor.
    */
   constructor (
+    private _errors: ErrorUtil,
     private _store: Store<IAppState>,
     private _debates: DebateService
   ) {
@@ -50,8 +54,8 @@ export class PollsListPageComponent implements OnInit, OnDestroy {
         return this._debates.listPolls({
           fromId: this._cursor,
           state: {
-            from: DebateState.draft,
-            to: DebateState.unpublished,
+            from: this._fromState,
+            to: this._toState,
           },
           limit: 10
         });
@@ -73,7 +77,22 @@ export class PollsListPageComponent implements OnInit, OnDestroy {
   /**
    * Angular lifecycle hooks.
    */
-  ngOnInit () {
+  async ngOnInit () {
+    try {
+      // if the user is an admin, display all anouncements
+      // regardless of status
+      let userProfile = await this._store.select(x => x.profile)
+        .pipe(take(1)).toPromise();
+      if (userProfile && userProfile.role <= UserRole.moderator) {
+        this._fromState = DebateState.draft;
+        this._toState = DebateState.unpublished;
+      }
+
+      // load first batch
+      this._loadStream$.next(0);
+    } catch (error) {
+      this._errors.dispatch(error);
+    }
   }
 
   ngOnDestroy () {

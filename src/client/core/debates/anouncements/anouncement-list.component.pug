@@ -2,8 +2,13 @@ a.d-flex.anouncement-container.py-2.mb-2(
   *ngFor="let anouncement of anouncements",
   href="", [routerLink]="['/debates', anouncement._id]"
 )
-  div.anouncement-title.col-1.text-center
+  div.anouncement-title.col-1.p-0.ml-2.text-center
     p.anouncement-date-day.m-0 {{getDayFromDate(anouncement.createdAt)}}
     p.anouncement-date-month.m-0 {{getMonthFromDate(anouncement.createdAt)}}
+    small.anouncement-state-label.m-0.px-1(*ngIf="showState", [ngClass]=`{
+      'bg-warning': anouncement.state === 0,
+      'bg-success': anouncement.state === 1,
+      'bg-secondary': anouncement.state === 2
+    }`) {{getStateLabel(anouncement.state)}}
   div.anouncement-title.col-11
     p {{anouncement.title}}
