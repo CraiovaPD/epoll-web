@@ -1,7 +1,7 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map, switchMap, pairwise, startWith } from 'rxjs/operators';
+import { map, switchMap, startWith, scan, flatMap } from 'rxjs/operators';
 
 import { IAppState } from '../../store/IApp';
 
@@ -31,6 +31,7 @@ export class AnouncementsListPageComponent implements OnInit, OnDestroy {
 
   private _loadStream$ = new BehaviorSubject<number>(0);
   private _cursor = ''; // id of the last anoucement
+  private _canLoadMore = true;
 
   /**
    * Class constructor.
@@ -59,15 +60,17 @@ export class AnouncementsListPageComponent implements OnInit, OnDestroy {
         });
       }))
       .pipe(startWith([]))
-      .pipe(pairwise())
-      .pipe(map(pair => {
-        let newBatch = pair[1];
-        this._cursor = newBatch[newBatch.length - 1]._id;
+      .pipe(flatMap(newBatch => {
+        if (newBatch.length > 0) {
+          this._cursor = newBatch[newBatch.length - 1]._id;
+          this._canLoadMore = true;
+        }
 
-        return [...pair[0], ...pair[1]];
-      }));
-
-    // this.anouncements$.subscribe(() => {});
+        return newBatch;
+      }))
+      .pipe(scan<IDebateAnouncementListItem, IDebateAnouncementListItem[]>( (acc, crt) => acc.concat(crt), [] ));
+    // types are explicitly mentioned above because of some weird bug in rxjs
+    // https://github.com/ReactiveX/rxjs/issues/4086
   }
 
   /**
@@ -77,6 +80,15 @@ export class AnouncementsListPageComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy () {
+  }
 
+  /**
+   * Load next batch of anouncements.
+   */
+  loadMore () {
+    if (this._canLoadMore) {
+      this._canLoadMore = false;
+      this._loadStream$.next(0);
+    }
   }
 }

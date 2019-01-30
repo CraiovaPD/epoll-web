@@ -19,6 +19,7 @@ import { WizardPageDirective } from './component/wizard-host/wizard-page.directi
 import { CarouselWizardComponent } from './component/wizard-host/carousel-wizard/carousel-wizard.component';
 import { AccordionWizardComponent } from './component/wizard-host/accordion-wizard/accordion-wizard.component';
 import { WizardBulletOutletComponent } from './component/wizard-host/bullet-outlet/bullet-outlet.component';
+import { InfiniteScrollDirective } from './component/infinite-scroll.directive';
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import { WizardBulletOutletComponent } from './component/wizard-host/bullet-outl
     JsonLdDirective,
     DynamicComponentHostDirective,
     FilePickerDirective,
+    InfiniteScrollDirective,
 
     // wizard
     WizardHostComponent,
@@ -52,6 +54,7 @@ import { WizardBulletOutletComponent } from './component/wizard-host/bullet-outl
     JsonLdDirective,
     DynamicComponentHostDirective,
     FilePickerDirective,
+    InfiniteScrollDirective,
 
     // wizard
     WizardHostComponent,

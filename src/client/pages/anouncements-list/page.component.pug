@@ -6,7 +6,9 @@ epoll-navbar
 
 main.container
   div.row
-    div.col-12.col-md-9.col-lg-6.mx-auto.pt-3
+    div.col-12.col-md-9.col-lg-6.mx-auto.pt-3(
+      epoll-infinite-scroll, (scroll)="loadMore()"
+    )
       h1.h2.mt-3 Comunicari
       epoll-anouncement-list([anouncements]="(anouncements$ | async)")
 
