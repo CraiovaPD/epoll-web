@@ -20,7 +20,11 @@ export default function config (app: express.Express) {
   app.get([
     '/404', '/login',
     '/u/**',
-    '/debates/**'
+    '/debates/**',
+    '/anouncements',
+    '/anouncements/**',
+    '/polls',
+    '/polls/**',
   ], (req, res) => {
     req;
     res.sendFile(path.join(__dirname, '../client/index.html'));

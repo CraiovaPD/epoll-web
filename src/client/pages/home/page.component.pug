@@ -29,4 +29,6 @@ ng-template(#_tfPage)
 
   h1.h2.mt-3 Comunicari
   epoll-anouncement-list([anouncements]="anouncements$ | async")
+  div.text-center
+    a(routerLink="anouncements") Vezi toate comunicarile
 

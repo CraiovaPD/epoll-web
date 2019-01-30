@@ -23,6 +23,7 @@ import { EditDebatePageResolver } from './edit-debate/page.resolver';
 import { AddNewDebatePageComponent } from './add-new-debate/page.component';
 import { UserRoleGuard } from './common/role.guard';
 import { UserRole } from '../types/users/IUser';
+import { AnouncementsListPageComponent } from './anouncements-list/page.component';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
@@ -46,6 +47,8 @@ export const ROUTES: Route[] = [{
   canActivate: [AuthGuard, UserRoleGuard],
   data: {roles: [UserRole.root, UserRole.admin, UserRole.moderator]},
   resolve: {pageData: EditDebatePageResolver}
+}, {
+  path: 'anouncements', component: AnouncementsListPageComponent
 }, {
   path: '**', redirectTo: '404'
 }];
@@ -75,7 +78,8 @@ export const ROUTES: Route[] = [{
     LoginPageComponent,
     UserProfilePageComponent,
     EditDebatePageComponent,
-    AddNewDebatePageComponent
+    AddNewDebatePageComponent,
+    AnouncementsListPageComponent
   ],
   exports: [
 

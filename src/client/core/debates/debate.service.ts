@@ -43,6 +43,7 @@ export class DebateService {
    * List polls.
    */
   listPolls (params: {
+    fromId?: string,
     state?: {
       from: DebateState,
       to: DebateState
@@ -50,6 +51,7 @@ export class DebateService {
     limit?: number
   }) : Observable<IDebatePollListItem[]> {
     return EPollAPI.Debates().listPolls({
+      fromId: params.fromId,
       state: params.state,
       limit: params.limit
     });
@@ -146,6 +148,7 @@ export class DebateService {
    * List anouncements.
    */
   listAnouncements (params: {
+    fromId?: string,
     state?: {
       from: DebateState,
       to: DebateState
@@ -153,6 +156,7 @@ export class DebateService {
     limit?: number
   }) : Observable<IDebateAnouncementListItem[]> {
     return EPollAPI.Debates().listAnouncements({
+      fromId: params.fromId,
       state: params.state,
       limit: params.limit
     });

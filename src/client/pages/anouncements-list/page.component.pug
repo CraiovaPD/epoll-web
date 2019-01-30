@@ -1,0 +1,16 @@
+epoll-navbar
+  div.col-12.col-md-9.col-lg-6.mx-auto.px-0
+    div.d-flex.justify-content-between
+      epoll-navbar-logo-button
+      epoll-navbar-user-menu
+
+main.container
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto.pt-3
+      h1.h2.mt-3 Comunicari
+      epoll-anouncement-list([anouncements]="(anouncements$ | async)")
+
+footer.container-fluid.mt-3
+  div.row
+    div.col-12.col-md-9.col-lg-6.mx-auto
+      epoll-copyright-footer

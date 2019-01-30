@@ -46,7 +46,9 @@ export default function config (app: express.Express) {
   app.get([
     '/',
     '/u/**',
-    '/debates/**'
+    '/debates/**',
+    '/anouncements/**',
+    '/polls/**',
   ], (req, res) => {
     try {
       res.render('index', {req});
