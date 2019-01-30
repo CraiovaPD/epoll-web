@@ -10,7 +10,7 @@ import { DebateState, IDebateAnouncementListItem } from '../../types/debates/IDe
 import { DebateService } from '../../core/debates/debate.service';
 
 /**
- * Component used for rendering the anouncement list page.
+ * Component used for rendering the poll list page.
  *
  * @author Dragos Sebestin
  */
@@ -21,8 +21,8 @@ import { DebateService } from '../../core/debates/debate.service';
     'page.component.css'
   ]
 })
-export class AnouncementsListPageComponent implements OnInit, OnDestroy {
-  public anouncements$: Observable<IDebateAnouncementListItem[]>;
+export class PollsListPageComponent implements OnInit, OnDestroy {
+  public polls$: Observable<IDebateAnouncementListItem[]>;
   public isEditor$: Observable<boolean>;
 
   private _loadStream$ = new BehaviorSubject<number>(0);
@@ -44,9 +44,9 @@ export class AnouncementsListPageComponent implements OnInit, OnDestroy {
       return true;
     }));
 
-    this.anouncements$ = this._loadStream$
+    this.polls$ = this._loadStream$
       .pipe(switchMap(() => {
-        return this._debates.listAnouncements({
+        return this._debates.listPolls({
           fromId: this._cursor,
           state: {
             from: DebateState.draft,
@@ -79,7 +79,7 @@ export class AnouncementsListPageComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Load next batch of anouncements.
+   * Load next batch of polls.
    */
   loadMore () {
     if (this._canLoadMore) {

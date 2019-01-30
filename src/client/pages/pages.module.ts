@@ -25,6 +25,7 @@ import { UserRoleGuard } from './common/role.guard';
 import { UserRole } from '../types/users/IUser';
 import { AnouncementsListPageComponent } from './anouncements-list/page.component';
 import { AddNewAnouncementPageComponent } from './add-new-anouncement/page.component';
+import { PollsListPageComponent } from './polls-list/page.component';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
@@ -36,6 +37,8 @@ export const ROUTES: Route[] = [{
 }, {
   path: 'u/:id', component: UserProfilePageComponent,
   resolve: {pageData: UserProfilePageResolver}
+}, {
+  path: 'polls', component: PollsListPageComponent
 }, {
   path: 'polls/add', component: AddNewPollPageComponent,
   canActivate: [AuthGuard, UserRoleGuard],
@@ -84,6 +87,7 @@ export const ROUTES: Route[] = [{
     UserProfilePageComponent,
     EditPollDebatePageComponent,
     AddNewPollPageComponent,
+    PollsListPageComponent,
     AddNewAnouncementPageComponent,
     AnouncementsListPageComponent
   ],
