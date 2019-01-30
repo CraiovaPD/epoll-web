@@ -6,7 +6,7 @@ import { DebateService } from '../../core/debates/debate.service';
 import { ErrorUtil } from '../../util/helpers/errorUtil';
 
 @Injectable()
-export class EditPollDebatePageResolver implements Resolve<IPageData> {
+export class EditAnouncementDebatePageResolver implements Resolve<IPageData> {
 
   /**
    * Class constructor.

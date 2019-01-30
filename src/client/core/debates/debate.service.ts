@@ -71,10 +71,23 @@ export class DebateService {
   }
 
   /**
-   * Get Poll by id.
+   * Get a debate by id.
    */
-  getPollById (id: string) : Observable<IDebate<any>> {
+  getDebateById (id: string) : Observable<IDebate<any>> {
     return EPollAPI.Debates().getDebateById(id);
+  }
+
+  /**
+   * Update debate state.
+   */
+  updateDebateState (params: {
+    debateId: string,
+    newState: DebateState
+  }) : Observable<IDebate<any>> {
+    return EPollAPI.Debates().updateDebateState({
+      debateId: params.debateId,
+      newState: params.newState
+    });
   }
 
   /**

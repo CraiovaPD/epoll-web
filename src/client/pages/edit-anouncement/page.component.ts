@@ -5,20 +5,16 @@ import { ErrorUtil } from '../../util/helpers/errorUtil';
 import { DebateService } from '../../core/debates/debate.service';
 
 // types
-import { IDebate, IPollDebate } from '../../types/debates/IDebate';
+import { IDebate, IAnouncementDebate } from '../../types/debates/IDebate';
 import { IAttachment } from '../../types/debates/IAttachment';
 
 export interface IPageData {
   debate: IDebate<any>
 }
-export interface IVoteOption {
-  text: string,
-  placeholder: string
-}
 
 /**
  * Component used for displaying a page from
- * where an existing poll can be edited.
+ * where an existing anouncement can be edited.
  *
  * @author Dragos Sebestin
  */
@@ -29,9 +25,8 @@ export interface IVoteOption {
     'page.component.css'
   ]
 })
-export class EditPollDebatePageComponent implements OnInit, OnDestroy {
-  public debate!: IDebate<IPollDebate>;
-  public newVoteOptions: IVoteOption[] = [];
+export class EditAnouncementDebatePageComponent implements OnInit, OnDestroy {
+  public debate!: IDebate<IAnouncementDebate>;
   public isUIEnabled = true;
 
   /**
@@ -41,8 +36,7 @@ export class EditPollDebatePageComponent implements OnInit, OnDestroy {
     private _errors: ErrorUtil,
     private _debateService: DebateService,
     private _router: Router,
-    private _activatedRoute: ActivatedRoute,
-
+    private _activatedRoute: ActivatedRoute
   ) {
   }
 
@@ -74,17 +68,6 @@ export class EditPollDebatePageComponent implements OnInit, OnDestroy {
         newTitle: this.debate.title,
         newContent: this.debate.content
       }).toPromise();
-
-      // process newly added options
-      for (let newOption of this.newVoteOptions) {
-        if (!newOption.text) continue;
-
-        await this._debateService.addPollVoteOption({
-          pollId: this.debate._id,
-          optionReason: newOption.text
-        }).toPromise();
-      }
-
       // go back to view mode
       this._router.navigate(['/debates', this.debate._id]);
     } catch (error) {
@@ -98,14 +81,14 @@ export class EditPollDebatePageComponent implements OnInit, OnDestroy {
    * Add a new attachment to this poll.
    */
   async addAttachment (
-    debate: IDebate<IPollDebate>,
+    debate: IDebate<IAnouncementDebate>,
     files: FileList
   ) {
     try {
       let formData = new FormData();
       formData.append('attachment', files[0]);
-      let attachment = await this._debateService.addPollAttachment({
-        pollId: debate._id,
+      let attachment = await this._debateService.addAnouncementAttachment({
+        anouncementId: debate._id,
         formData
       }).toPromise();
 
@@ -119,15 +102,15 @@ export class EditPollDebatePageComponent implements OnInit, OnDestroy {
    * Remove an attachment.
    */
   async removeAttachment (
-    debate: IDebate<IPollDebate>,
+    debate: IDebate<IAnouncementDebate>,
     attachment: IAttachment
   ) {
     try {
       if (
         confirm(`Esti sigur ca vrei sa stergi acest atasament "${attachment.file.originalName}"?`)
       ) {
-        await this._debateService.removePollAttachment({
-          pollId: debate._id,
+        await this._debateService.removeAnouncementAttachment({
+          anouncementId: debate._id,
           attachmentId: attachment._id
         }).toPromise();
 
@@ -141,46 +124,6 @@ export class EditPollDebatePageComponent implements OnInit, OnDestroy {
     } catch (error) {
       this._errors.dispatch(error);
     }
-  }
-
-  /**
-   * Remove existing vote option.
-   */
-  async removeExistingVoteOption (
-    debate: IDebate<IPollDebate>,
-    optionId: string
-  ) {
-    if (!confirm(`Esti sigur ca vrei sa stergi aceasta optiune?`)) return;
-    try {
-      await this._debateService.removePollVoteOption({
-        pollId: debate._id,
-        optionId
-      }).toPromise();
-
-      let foundIndex = this.debate.payload.options.findIndex(vo => vo._id === optionId);
-      if (~foundIndex) {
-        this.debate.payload.options.splice(foundIndex, 1);
-      }
-    } catch (error) {
-      this._errors.dispatch(error);
-    }
-  }
-
-  /**
-   * Add an empty vote option.
-   */
-  addEmptyVoteOption () {
-    this.newVoteOptions.push({
-      text: '',
-      placeholder: ''
-    });
-  }
-
-  /**
-   * Remove newly added vote option.
-   */
-  removeEmptyVoteOption (index: number) {
-    this.newVoteOptions.splice(index, 1);
   }
 
   private _toggleUI (enable: boolean) {

@@ -39,6 +39,14 @@ export function activeDebateReducer (
       }
     }
 
+    case ActiveDebateActionTypes.UPDATE_STATE: {
+      let updatedDebate = Object.assign({}, state, {
+        state: action.payload
+      });
+
+      return updatedDebate;
+    }
+
     default:
       return state;
   }

@@ -7,16 +7,65 @@ epoll-navbar
 main.container(epoll-json-ld, [schema]="SCHEMA")
   div.row
     div.col-12.col-md-9.col-lg-6.mx-auto.pt-3
-      div.d-flex.justify-content-between(
-        *ngIf="isEditor$ | async"
-      )
-        a([routerLink]="['/debates', debate._id, 'edit']") Editează
+      div(*ngIf="debate$ | async as debate; else loading")
+        div.d-flex.justify-content-between(
+          *ngIf="isEditor$ | async"
+        )
+          a(
+            *ngIf="debate.type === 0",
+            [routerLink]="['/polls', debate._id, 'edit']"
+          ) Editează
+          a(
+            *ngIf="debate.type === 1",
+            [routerLink]="['/anouncements', debate._id, 'edit']"
+          ) Editează
 
-      epoll-debate-host(
-        [debate]="debate"
-      )
+        //- state
+        section(*ngIf="debate.state === 0 && (isModerator$ | async)")
+          div.sticker.sticker-warning
+            span.sticker-icon
+              i.fas.fa-exclamation-circle
+            div
+              span.sticker-title Necesita Aprobare
+              p.sticker-text Pentru a putea fi vizualizata public, aceasta dezbatere trebuie sa fie acceptat de un moderator.
+          button.btn.btn-block.btn-success.my-1(
+            (click)="approve(debate)"
+          ) APROBA
+
+        section(*ngIf="debate.state === 1 && (isModerator$ | async)")
+          div.sticker.sticker-success
+            span.sticker-icon
+              i.fas.fa-exclamation-circle
+            div
+              span.sticker-title In Dezbatere Publica
+              p.sticker-text.
+                Aceasta dezbatere este publica si poate fi vazuta de oricine.
+                Daca doresti, o poti face privata, in acest fel doar cei care au linkul direct o pot accesa.
+          button.btn.btn-block.btn-warning.my-1(
+            (click)="unpublish(debate)"
+          ) ASCUNDE
+
+        section(*ngIf="debate.state === 2 && (isModerator$ | async)")
+          div.sticker.sticker-warning
+            span.sticker-icon
+              i.fas.fa-exclamation-circle
+            div
+              span.sticker-title In Dezbatere Privata
+              p.sticker-text.
+                Aceasta dezbatere este privata si poate fi vazuta doar de cei care au linkul direct.
+                Daca doresti, o poti republica, in acest fel toata lumea va avea acces.
+          button.btn.btn-block.btn-primary.my-1(
+            (click)="republish(debate)"
+          ) REPUBLICA
+
+        epoll-debate-host(
+          [debate]="debate"
+        )
 
 footer.container-fluid.mt-3
   div.row
     div.col-12.col-md-9.col-lg-6.mx-auto
       epoll-copyright-footer
+
+ng-template(#loading)
+  p Se incarca ...

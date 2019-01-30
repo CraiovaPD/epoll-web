@@ -7,15 +7,10 @@ import {
   OnInit,
   OnDestroy
 } from '@angular/core';
-import { Store } from '@ngrx/store';
 
 // core imports
 import { DebateFactoryService } from './debate-factory.service';
 import { IDebateComponent } from './components/IDebateComponent';
-
-// store
-import { IAppState } from '../../../store/IApp';
-import { SetActiveDebate } from '../../../store/debates/activeDebate.actions';
 
 // types
 import { IDebate } from '../../../types/debates/IDebate';
@@ -38,7 +33,6 @@ export class DebateDirective implements OnInit, OnDestroy {
     private _view: ViewContainerRef,
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _debatesComponentFactory: DebateFactoryService,
-    private _store: Store<IAppState>
   ) {}
 
   /**
@@ -46,7 +40,6 @@ export class DebateDirective implements OnInit, OnDestroy {
    */
   ngOnInit () {
     if (this._debate) {
-      this._store.dispatch(new SetActiveDebate(this._debate));
       this._render(this._debatesComponentFactory.getComponent(this._debate));
     }
   }

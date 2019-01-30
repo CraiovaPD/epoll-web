@@ -18,8 +18,7 @@ footer.container-fluid.mt-3
       epoll-copyright-footer
 
 ng-template(#_tfPage)
-  h1.h3.mt-3.mb-2 Editare sondaj
-
+  h1.h3.mt-3.mb-2 Editare anunt
   .form-group
     label.form-control-label(for="title") TITLU
     textarea.form-control(
@@ -33,30 +32,6 @@ ng-template(#_tfPage)
       id="description", name="description", rows="5",
       [(ngModel)]="debate.content"
     )
-
-  h2.h4.mt-3 Opţiuni Votare
-  p Minim 2 opțiuni pentru votare. Câmpurile necompletate nu o să fie afișate.
-
-  div.d-flex(*ngFor="let option of debate.payload.options")
-    .form-group.col-11.p-0
-      input.form-control(
-        type="text",
-        [(ngModel)]="option.reason"
-      )
-    span.col-1.text-center.text-danger((click)="removeExistingVoteOption(debate, option._id)")
-      i.fa.fa-times
-  .form-group(*ngFor="let option of newVoteOptions")
-    input.form-control(
-      type="text",
-      [placeholder]="option.placeholder",
-      [(ngModel)]="option.text"
-    )
-
-  button.btn.btn-block.btn-default(
-    (click)="addEmptyVoteOption()"
-  ) ADAUGĂ CÂMP NOU
-
-  small Pentru a șterge un câmp, doar ștergeti continutul acestuia și o să fie eliminat la salvarea schimbărilor.
 
   h2.h4.mt-3 Atașare fișiere
   p Doar fisierele de tip PDF, PNG si JPG sunt acceptate.
@@ -87,7 +62,7 @@ ng-template(#_tfPage)
 
   button.btn.btn-block.btn-primary(
     (click)="commitChanges()"
-  ) SALVEAZĂ SONDAJ
+  ) SALVEAZĂ ANUNT
   button.btn.btn-block.btn-danger.mt-4(
     (click)="delete()"
   ) ȘTERGE DEFINITIV

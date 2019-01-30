@@ -4,10 +4,11 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map, switchMap, startWith, scan, flatMap } from 'rxjs/operators';
 
 import { IAppState } from '../../store/IApp';
+import { DebateService } from '../../core/debates/debate.service';
 
 // types
 import { DebateState, IDebateAnouncementListItem } from '../../types/debates/IDebate';
-import { DebateService } from '../../core/debates/debate.service';
+import { UserRole } from '../../types/users/IUser';
 
 /**
  * Component used for rendering the poll list page.
@@ -41,7 +42,7 @@ export class PollsListPageComponent implements OnInit, OnDestroy {
     ).pipe(map(profile => {
       if (!profile) return false;
 
-      return true;
+      return profile.role <= UserRole.moderator;
     }));
 
     this.polls$ = this._loadStream$

@@ -20,7 +20,7 @@ export class DebatePageResolver implements Resolve<IPageData | undefined> {
   async resolve (routeSnapshot: ActivatedRouteSnapshot) {
     try {
       let debateId = routeSnapshot.params['id'];
-      let debate = await this._debates.getPollById(debateId).toPromise();
+      let debate = await this._debates.getDebateById(debateId).toPromise();
 
       return {
         debate
