@@ -21,9 +21,11 @@ ng-template(#_tfPage)
     *ngIf="isAdmin$ | async"
   )
     a.d-block.btn.btn-primary(
-      routerLink="debates/add"
+      routerLink="polls/add"
     ) ADAUGĂ SONDAJ
-    a.d-block.btn.btn-default ADAUGĂ COMUNICARE NOUĂ
+    a.d-block.btn.btn-default(
+      routerLink="anouncements/add"
+    ) ADAUGĂ COMUNICARE NOUĂ
   h1.h2.mt-2 Opinia ta despre...
   epoll-poll-list([polls]="polls$ | async")
 

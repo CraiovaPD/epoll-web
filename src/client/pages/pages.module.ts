@@ -18,12 +18,13 @@ import { DebatePageResolver } from './debate-details/page.resolver';
 import { LoginPageComponent } from './login/page.component';
 import { UserProfilePageComponent } from './user-profile/page.component';
 import { UserProfilePageResolver } from './user-profile/page.resolver';
-import { EditDebatePageComponent } from './edit-debate/page.component';
-import { EditDebatePageResolver } from './edit-debate/page.resolver';
+import { EditPollDebatePageComponent } from './edit-poll/page.component';
+import { EditDebatePageResolver } from './edit-poll/page.resolver';
 import { AddNewPollPageComponent } from './add-new-poll/page.component';
 import { UserRoleGuard } from './common/role.guard';
 import { UserRole } from '../types/users/IUser';
 import { AnouncementsListPageComponent } from './anouncements-list/page.component';
+import { AddNewAnouncementPageComponent } from './add-new-anouncement/page.component';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
@@ -42,10 +43,14 @@ export const ROUTES: Route[] = [{
 }, {
   path: 'anouncements', component: AnouncementsListPageComponent
 }, {
+  path: 'anouncements/add', component: AddNewAnouncementPageComponent,
+  canActivate: [AuthGuard, UserRoleGuard],
+  data: {roles: [UserRole.root, UserRole.admin]}
+}, {
   path: 'debates/:id', component: DebateDetailsPageComponent,
   resolve: {pageData: DebatePageResolver}
 }, {
-  path: 'debates/:id/edit', component: EditDebatePageComponent,
+  path: 'debates/:id/edit', component: EditPollDebatePageComponent,
   canActivate: [AuthGuard, UserRoleGuard],
   data: {roles: [UserRole.root, UserRole.admin, UserRole.moderator]},
   resolve: {pageData: EditDebatePageResolver}
@@ -77,8 +82,9 @@ export const ROUTES: Route[] = [{
     DebateDetailsPageComponent,
     LoginPageComponent,
     UserProfilePageComponent,
-    EditDebatePageComponent,
+    EditPollDebatePageComponent,
     AddNewPollPageComponent,
+    AddNewAnouncementPageComponent,
     AnouncementsListPageComponent
   ],
   exports: [

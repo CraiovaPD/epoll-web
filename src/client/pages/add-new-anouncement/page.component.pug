@@ -18,7 +18,7 @@ footer.container-fluid.mt-3
       epoll-copyright-footer
 
 ng-template(#_tfPage)
-  h1.h3.mt-3 Sondaj Nou
+  h1.h3.mt-3 Adauga Anunt Nou
   .form-group
     label.form-control-label(for="title") TITLU
     textarea.form-control(
@@ -31,20 +31,6 @@ ng-template(#_tfPage)
       id="description", name="description", rows="5",
       [(ngModel)]="content"
     )
-
-  h2.h3 Opţiuni Votare
-  p Minim 2 opțiuni pentru votare. Câmpurile necompletate nu o să fie afișate.
-
-  .form-group(*ngFor="let option of voteOptions; let i = index")
-    input.form-control(
-      type="text",
-      [placeholder]="option.placeholder",
-      [(ngModel)]="option.text"
-    )
-
-  button.btn.btn-block.btn-default(
-    (click)="addEmptyVoteOption()"
-  ) ADAUGĂ CÂMP NOU
 
   h2.h3 Atașare fișiere
   p Doar fisierele de tip PDF, PNG si JPG sunt acceptate.
@@ -74,8 +60,8 @@ ng-template(#_tfPage)
   div.epol-divider
 
   button.btn.btn-block.btn-primary(
-    (click)="createPoll()"
-  ) CREAZĂ SONDAJ
+    (click)="createAnouncement()"
+  ) CREAZĂ ANUNT
   a.btn.btn-block.btn-default(
     routerLink="/"
   ) ANULEAZĂ

@@ -18,7 +18,7 @@ export interface IVoteOption {
 
 /**
  * Component used for displaying a page from
- * where a new debate can be created.
+ * where an existing poll can be edited.
  *
  * @author Dragos Sebestin
  */
@@ -29,7 +29,7 @@ export interface IVoteOption {
     'page.component.css'
   ]
 })
-export class EditDebatePageComponent implements OnInit, OnDestroy {
+export class EditPollDebatePageComponent implements OnInit, OnDestroy {
   public debate!: IDebate<IPollDebate>;
   public newVoteOptions: IVoteOption[] = [];
   public isUIEnabled = true;
@@ -103,7 +103,7 @@ export class EditDebatePageComponent implements OnInit, OnDestroy {
     try {
       let formData = new FormData();
       formData.append('attachment', files[0]);
-      let attachment = await this._debateService.addAttachment({
+      let attachment = await this._debateService.addPollAttachment({
         pollId: debate._id,
         formData
       }).toPromise();
@@ -125,7 +125,7 @@ export class EditDebatePageComponent implements OnInit, OnDestroy {
       if (
         confirm(`Esti sigur ca vrei sa stergi acest atasament "${attachment.file.originalName}"?`)
       ) {
-        await this._debateService.removeAttachment({
+        await this._debateService.removePollAttachment({
           pollId: debate._id,
           attachmentId: attachment._id
         }).toPromise();

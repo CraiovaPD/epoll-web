@@ -11,7 +11,7 @@ export interface IVoteOption {
 
 /**
  * Component used for displaying a page from
- * where a new poll can be created.
+ * where a new anouncement can be created.
  *
  * @author Dragos Sebestin
  */
@@ -22,17 +22,10 @@ export interface IVoteOption {
     'page.component.css'
   ]
 })
-export class AddNewPollPageComponent implements OnInit, OnDestroy {
+export class AddNewAnouncementPageComponent implements OnInit, OnDestroy {
   public title = '';
   public content = '';
   public files: File[] = [];
-  public voteOptions: IVoteOption[] = [{
-    text: '',
-    placeholder: 'ex: Nu mi se pare corect'
-  }, {
-    text: '',
-    placeholder: 'ex: Nu este o solutie buna'
-  }];
   public isUIEnabled = true;
 
   /**
@@ -60,37 +53,27 @@ export class AddNewPollPageComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Create a new poll.
+   * Create a new anouncement.
    */
-  async createPoll () {
+  async createAnouncement () {
     try {
       this._toggleUI(false);
-      let poll = await this._debateService.createNewPollDebate({
+      let anouncement = await this._debateService.createNewAnouncementDebate({
         title: this.title.trim(),
         content: this.content.trim()
       }).toPromise();
-
-      // submit vote options
-      for (let option of this.voteOptions) {
-        if (!!option) {
-          await this._debateService.addPollVoteOption({
-            pollId: poll._id,
-            optionReason: option.text
-          }).toPromise();
-        }
-      }
 
       // submit attachments
       for (let file of this.files) {
         let formData = new FormData();
         formData.append('attachment', file);
-        await this._debateService.addPollAttachment({
-          pollId: poll._id,
+        await this._debateService.addAnouncementAttachment({
+          anouncementId: anouncement._id,
           formData
         }).toPromise();
       }
 
-      this._router.navigate(['/debates', poll._id]);
+      this._router.navigate(['/debates', anouncement._id]);
 
     } catch (error) {
       this._errors.dispatch(error);
@@ -115,16 +98,6 @@ export class AddNewPollPageComponent implements OnInit, OnDestroy {
    */
   removeAttachment (index: number) {
     this.files.splice(index, 1);
-  }
-
-  /**
-   * Add an empty vote option.
-   */
-  addEmptyVoteOption () {
-    this.voteOptions.push({
-      text: '',
-      placeholder: ''
-    });
   }
 
   private _toggleUI (enable: boolean) {

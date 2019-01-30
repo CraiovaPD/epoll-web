@@ -40,6 +40,19 @@ export class DebateService {
   }
 
   /**
+   * Create a new poll debate.
+   */
+  createNewAnouncementDebate (params: {
+    title: string,
+    content: string
+  }) {
+    return EPollAPI.Debates().createNewAnouncement({
+      title: params.title,
+      content: params.content
+    });
+  }
+
+  /**
    * List polls.
    */
   listPolls (params: {
@@ -104,9 +117,9 @@ export class DebateService {
   }
 
   /**
-   * Add a new attachment.
+   * Add a new attachment to a poll.
    */
-  addAttachment (params: {
+  addPollAttachment (params: {
     pollId: string,
     formData: FormData
   }) : Observable<IAttachment> {
@@ -117,9 +130,9 @@ export class DebateService {
   }
 
   /**
-   * Remove an attachment.
+   * Remove an attachment from a poll.
    */
-  removeAttachment (params: {
+  removePollAttachment (params: {
     pollId: string,
     attachmentId: string
   }) {
@@ -161,4 +174,31 @@ export class DebateService {
       limit: params.limit
     });
   }
+
+  /**
+   * Add a new attachment to an anouncement.
+   */
+  addAnouncementAttachment (params: {
+    anouncementId: string,
+    formData: FormData
+  }) : Observable<IAttachment> {
+    return EPollAPI.Debates().addAnouncementAttachment({
+      anouncementId: params.anouncementId,
+      formData: params.formData
+    });
+  }
+
+  /**
+   * Remove an attachment from an nouncement.
+   */
+  removeAnouncementAttachment (params: {
+    anouncementId: string,
+    attachmentId: string
+  }) {
+    return EPollAPI.Debates().removeAnouncementAttachment({
+      anouncementId: params.anouncementId,
+      attachmentId: params.attachmentId
+    });
+  }
+
 }

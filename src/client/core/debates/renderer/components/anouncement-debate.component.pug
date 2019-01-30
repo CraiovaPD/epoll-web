@@ -1,5 +1,5 @@
 div(*ngIf="debate$ | async as debate; else loading")
-  h1.title {{debate.title}}
+  h1#title {{debate.title}}
   div.flex.mt-1
     span  postat acum
     b  {{getAgoTime(debate)}}
