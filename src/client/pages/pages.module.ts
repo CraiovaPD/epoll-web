@@ -28,12 +28,15 @@ import { AddNewAnouncementPageComponent } from './add-new-anouncement/page.compo
 import { PollsListPageComponent } from './polls-list/page.component';
 import { EditAnouncementDebatePageComponent } from './edit-anouncement/page.component';
 import { EditAnouncementDebatePageResolver } from './edit-anouncement/page.resolver';
+import { PrivacyPolicyPageComponent } from './privacy-policy/page.component';
 
 export const ROUTES: Route[] = [{
   path: '', component: HomePageComponent,
   resolve: {pageData: HomePageResolver}
 }, {
   path: '404', component: NotFoundPageComponent
+}, {
+  path: 'privacy-policy', component: PrivacyPolicyPageComponent
 }, {
   path: 'login', component: LoginPageComponent
 }, {
