@@ -1,29 +1,14 @@
-//- p.font-size-small.mb-1 Copyright &copy; {{getYear()}} E Poll
-//- p.font-size-small.mb-1
-//-   span.font-weight-medium Ai nevoie de ajutor?
-//-   |  Vizitează pagina de
-//-   a.font-weight-medium( href="/docs/faqs/" )  Întrebări Frecvente
-//-   |.
-//- p.font-size-small.mb-1 Ne poţi contacta direct pe pagina noastră de
-//-   a.font-weight-medium(href="https://m.me/craiovapd")  Facebook
-//-   |.
-//- p.font-size-small
-//-   a.font-weight-medium(href, routerLink="/terms-of-service")  Termeni și condiții
-//-   |  &amp;
-//-   a.font-weight-medium(href, routerLink="/privacy-policy")  Politica de confidențialitate
-//-   |.
-
 div.wrapper.py-3
   div.d-flex
     div.col
       h6 ePoll
       ul.list-unstyled.pl-3.footer-list
         li
-          a(href="", [routerLink]="['/']") Dezbateri
+          a(href="", [routerLink]="['/polls']") Sondaje
         li
-          a(href="", [routerLink]="['/']") Comunicari
+          a(href="", [routerLink]="['/anouncements']") Comunicari
         li
-          a(href="", [routerLink]="['/']") Autentificare
+          a(href="", [routerLink]="['/privacy-policy']") Politica de Confidentialitate
 
     div.col
       h6 Social Media
