@@ -8,9 +8,9 @@ main.container
     div.col-12.col-md-9.col-lg-6.mx-auto
       div(*ngIf="isOwnProfile(); then ownProfile; else publicProfile")
 
-      h2.h5 Embleme Castigate
+      //- h2.h5 Embleme Castigate
 
-      div.row
+      //- div.row
         div.col-4.mb-1(*ngFor="let badge of badges")
           div.badge.mx-auto
 
@@ -29,10 +29,10 @@ ng-template(#ownProfile)
       b  {{user.firstname}} {{user.lastname}}
     p.m-0 Telefon:
       b  {{user.phone}}
-    a(href="", (click)="$event.preventDefault();") Modifica
+    //- a(href="", (click)="$event.preventDefault();") Modifica
 
-  h2.h5.mt-2 Statisticile contului tau sunt:
-  ul
+  //- h2.h5.mt-2 Statisticile contului tau sunt:
+  //- ul
     li Ai participat in 0 sondaje.
     li Ai citit 4 comunicate.
     li Ai actualizat 3 sondaje.
@@ -58,8 +58,8 @@ ng-template(#ownProfile)
 ng-template(#publicProfile)
   h1.h3.mt-3 {{user.firstname}} {{user.lastname}}
 
-  h2.h5.mt-4 Statisticile contului:
-  ul
+  //- h2.h5.mt-4 Statisticile contului:
+  //- ul
     li A participat in 0 sondaje.
     li A citit 4 comunicate.
     li A actualizat 3 sondaje.
