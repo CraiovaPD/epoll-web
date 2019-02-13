@@ -10,13 +10,13 @@ html(lang='ro')
     meta(name='googlebot' content='noindex')
 
     //- favicons
-    //- link(rel='icon' sizes='180x180' href='/apple-touch-icon.png?v=EvrbMz9ptL4K')
-    //- link(rel='icon' type='image/png' sizes='32x32' href='/favicon-32x32.png?v=EvrbMz9ptL4K')
-    //- link(rel='icon' type='image/png' sizes='16x16' href='/favicon-16x16.png?v=EvrbMz9ptL4K')
-    //- link(rel='manifest' href='/manifest.json?v=EvrbMz9ptL4K')
-    //- link(rel='mask-icon' href='/safari-pinned-tab.svg?v=EvrbMz9ptL4K' color='#5bbad5')
-    //- link(rel='shortcut icon' href='/favicon.ico?v=EvrbMz9ptL4K')
-    //- meta(name='theme-color' content='#ffffff')
+    link(rel="apple-touch-icon", sizes="180x180", href="/apple-touch-icon.png")
+    link(rel="icon", type="image/png", sizes="32x32", href="/favicon-32x32.png")
+    link(rel="icon", type="image/png", sizes="16x16", href="/favicon-16x16.png")
+    link(rel="manifest", href="/site.webmanifest")
+    link(rel="mask-icon", href="/safari-pinned-tab.svg", color="#5bbad5")
+    meta(name="msapplication-TileColor", content="#da532c")
+    meta(name="theme-color", content="#ffffff")
 
     //- load third-party stylesheets
     link(href='https://fonts.googleapis.com/css?family=Roboto+Slab', rel='stylesheet')
@@ -59,7 +59,7 @@ html(lang='ro')
 
     epoll
       div.loading-screen
-        img.loading-screen-logo(src='/assets/logo-spin.svg' alt='loading image')
+        img.loading-screen-logo(src='/assets/logo-splash.svg' alt='loading image')
 
     //- polyfill(s) for older browsers
     script(src='/core-js/client/shim.min.js')
