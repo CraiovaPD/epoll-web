@@ -49,6 +49,7 @@ export default function config (app: express.Express) {
     '/debates/**',
     '/anouncements/**',
     '/polls/**',
+    '/privacy-policy'
   ], (req, res) => {
     try {
       res.render('index', {req});
