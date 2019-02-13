@@ -101,7 +101,8 @@ export const ROUTES: Route[] = [{
     PollsListPageComponent,
     AddNewAnouncementPageComponent,
     AnouncementsListPageComponent,
-    EditAnouncementDebatePageComponent
+    EditAnouncementDebatePageComponent,
+    PrivacyPolicyPageComponent
   ],
   exports: [
 
