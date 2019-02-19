@@ -92,6 +92,9 @@ export class DebateDetailsPageComponent implements OnInit, OnDestroy {
       }, {
         property: 'og:url',
         content: this._getURL(debate)
+      }, {
+        property: 'og:image',
+        content: this._getLogoURL()
       }]);
       // {
       //   property: 'og:image',
@@ -102,8 +105,7 @@ export class DebateDetailsPageComponent implements OnInit, OnDestroy {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
         '@id': debate._id,
-        'image': [
-        ],
+        'image': this._getLogoURL(),
         'name': debate.title,
         'url': this._getURL(debate)
       };
@@ -189,10 +191,17 @@ export class DebateDetailsPageComponent implements OnInit, OnDestroy {
   /**
    * Get a valid debate page URL.
    */
-  private _getURL(debate: IDebate<any>) {
+  private _getURL (debate: IDebate<any>) {
     if (isPlatformServer(this._platformId))
       return `${this._env.baseUrl}${debate._id}`;
 
     return window.location.href;
+  }
+
+  /**
+   * Get logo URL for meta tags.
+   */
+  private _getLogoURL () : string {
+    return `${this._env.baseUrl}assets/logo-mono.png`;
   }
 }
