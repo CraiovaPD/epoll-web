@@ -81,14 +81,15 @@ export class PollDebateComponent implements IDebateComponent, OnInit {
   /**
    * Encode an URI component.
    */
-  encodeWhatsappMessage (debate: IDebate<any>) : string {
-    return encodeURIComponent(
-`
-${debate.title}
+  whatsappShare (debate: IDebate<any>) : void {
+    let message =
+`${debate.title}
 
 ${window.location.href}
-`
-    );
+
+${SHARE_HASHTAG}`;
+    let shareUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(shareUrl, '_blank');
   }
 
   /**
@@ -102,7 +103,7 @@ ${window.location.href}
       /* tslint:disable */
       let shareUrl = `https://www.facebook.com/dialog/share?app_id=${this._env.facebook.appId}&display=popup&href=${pageUrl}&quote=${shareQuote}&hashtag=${shareTag}`;
       /* tslint:enable */
-      window.open(shareUrl, '', 'height=300,width=600');
+      window.open(shareUrl, '_blank', 'height=300,width=600');
     }
   }
 

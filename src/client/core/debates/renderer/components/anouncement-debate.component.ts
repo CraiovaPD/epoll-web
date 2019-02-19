@@ -64,14 +64,15 @@ export class AnouncementDebateComponent implements IDebateComponent, OnInit {
   /**
    * Encode an URI component.
    */
-  encodeWhatsappMessage (debate: IDebate<any>) : string {
-    return encodeURIComponent(
-`
-${debate.title}
+  whatsappShare (debate: IDebate<any>) : void {
+    let message =
+`${debate.title}
 
 ${window.location.href}
-`
-    );
+
+${SHARE_HASHTAG}`;
+    let shareUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(shareUrl, '_blank');
   }
 
   /**

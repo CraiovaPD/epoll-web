@@ -33,7 +33,7 @@ div(*ngIf="debate$ | async as debate; else loading")
   ng-template(#social)
     h2.h6.mt-3.text-center Distribuie
     section.d-flex.justify-content-center
-      a.social-icon.mx-2(href="https://wa.me/?text={{encodeWhatsappMessage(debate)}}")
+      a.social-icon.mx-2(href="", (click)="$event.preventDefault(); whatsappShare(debate)")
         i.fab.fa-whatsapp
       a.social-icon.mx-2(href="", (click)="$event.preventDefault(); facebookShare(debate)")
         i.fab.fa-facebook-square
