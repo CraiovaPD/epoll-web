@@ -4,9 +4,7 @@ epoll-navbar
       epoll-navbar-logo-button
       epoll-navbar-user-menu
 
-//- div( epoll-json-ld, [schema]="SCHEMA" )
-
-main.container
+main.container( epoll-json-ld, [schema]="SCHEMA" )
   div.row
     div.col-12.col-md-9.col-lg-6.mx-auto
       ng-container(*ngTemplateOutlet="_tfPage")
