@@ -1,5 +1,5 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, BrowserTransferStateModule } from '@angular/platform-browser';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -70,6 +70,7 @@ export function getInitialState () {
     RouterModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    BrowserTransferStateModule,
 
     PagesModule,
     UtilModule,

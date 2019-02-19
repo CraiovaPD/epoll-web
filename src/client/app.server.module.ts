@@ -1,5 +1,5 @@
 import { NgModule, APP_INITIALIZER } from '@angular/core';
-import { ServerModule } from '@angular/platform-server';
+import { ServerModule, ServerTransferStateModule } from '@angular/platform-server';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
@@ -55,6 +55,7 @@ export function getInitialState () {
     }),
     // .BrowserAnimationsModule,
     HttpClientModule,
+    ServerTransferStateModule,
 
     UtilModule,
     PagesModule,
