@@ -9,7 +9,7 @@ div(*ngIf="debate$ | async as debate; else loading")
 
   article#content.my-4 {{debate.content}}
 
-  div(*ngIf="!!debate; then filesList")
+  div(*ngIf="!!debate && (debate.payload.attachments.length > 0); then filesList")
   div(*ngIf="!!debate; then poll")
   div(*ngIf="!!debate; then social")
 
