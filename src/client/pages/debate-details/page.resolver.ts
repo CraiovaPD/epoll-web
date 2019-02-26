@@ -1,5 +1,5 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router';
 import { TransferState, makeStateKey } from '@angular/platform-browser';
 
@@ -37,7 +37,9 @@ export class DebatePageResolver implements Resolve<IPageData | undefined> {
         };
       } else {
         let debate = await this._debates.getDebateById(debateId).toPromise();
-        this._transferState.set(DEBATE_KEY, debate);
+
+        if (isPlatformServer(this._platformId))
+          this._transferState.set(DEBATE_KEY, debate);
 
         return {
           debate
