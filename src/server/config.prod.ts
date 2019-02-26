@@ -36,7 +36,10 @@ export default function config (app: express.Express) {
 
   // exclude client-side routes from SSR
   app.get([
-    '/404', '/login'
+    '/404',
+    '/login',
+    '/anouncements(/*)?',
+    '/polls(/*)?',
   ], async (req, res) => {
     req;
     res.sendFile(path.join(__dirname, '../client/index.html'));
@@ -47,8 +50,6 @@ export default function config (app: express.Express) {
     '/',
     '/u/**',
     '/debates/**',
-    '/anouncements/**',
-    '/polls/**',
     '/privacy-policy'
   ], (req, res) => {
     try {
