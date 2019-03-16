@@ -4,7 +4,8 @@ div(*ngIf="debate$ | async as debate; else loading")
     span  postat acum
     b  {{getAgoTime(debate)}}
 
-  article#content.my-4 {{debate.content}}
+  article#content.my-4
+    markdown(ngPreserveWhitespaces, [data]="debate.content")
 
   div(*ngIf="!!debate && (debate.payload.attachments.length > 0); then filesList")
   div(*ngIf="!!debate; then social")

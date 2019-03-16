@@ -41,6 +41,8 @@ module.exports = {
       // rxjs: __dirname + '/node_modules/rxjs-es',
       'moment/locale/ro': __dirname + '/node_modules/moment/locale/ro.js',
       moment: __dirname + '/node_modules/moment/moment.js',
+      // 'ngx-markdown': __dirname + '/node_modules/ngx-markdown/bundles/ngx-markdown.umd.min.js',
+      // marked: __dirname + '/node_modules/marked/lib/marked.js',
       // 'epoll-api-sdk': __dirname + '/node_modules/epoll-api-sdk/build/index.js'
     }),
     nodeResolve({
@@ -52,7 +54,8 @@ module.exports = {
     }),
     commonjs({
       namedExports: {
-        [__dirname + '/node_modules/exceptional.js']: ['ServerException', 'ClientException']
+        [__dirname + '/node_modules/exceptional.js']: ['ServerException', 'ClientException'],
+        [__dirname + '/node_modules/marked']: ['Renderer', 'parse'],
       }
     })
   ]

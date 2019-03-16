@@ -82,6 +82,7 @@
     "moment": "2.22.2",
     "morgan": "1.9.1",
     "nconf": "0.10.0",
+    "ngx-markdown": "7.1.4",
     "reflect-metadata": "0.1.12",
     "rxjs": "6.3.3",
     "rxjs-compat": "6.3.3",

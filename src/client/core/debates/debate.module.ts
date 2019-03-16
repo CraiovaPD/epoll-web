@@ -1,4 +1,5 @@
 import { NgModule }  from '@angular/core';
+import { MarkdownModule } from 'ngx-markdown';
 
 import { SharedModule } from '../../shared.module';
 import { UtilModule } from '../../util/util.module';
@@ -16,7 +17,8 @@ import { AnouncementDebateComponent } from './renderer/components/anouncement-de
 @NgModule({
   imports: [
     SharedModule,
-    UtilModule
+    UtilModule,
+    MarkdownModule.forRoot()
   ],
   providers: [
     DebateService,

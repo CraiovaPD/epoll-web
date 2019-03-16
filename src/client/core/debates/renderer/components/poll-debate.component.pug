@@ -6,8 +6,10 @@ div(*ngIf="debate$ | async as debate; else loading")
     b  •
     span  postat acum
     b  {{getAgoTime(debate)}}
+  hr
 
-  article#content.my-4 {{debate.content}}
+  article#content.my-4
+    markdown(ngPreserveWhitespaces, [data]="debate.content")
 
   div(*ngIf="!!debate && (debate.payload.attachments.length > 0); then filesList")
   div(*ngIf="!!debate; then poll")
