@@ -53,14 +53,14 @@ export class HomePageComponent implements OnInit, OnDestroy {
     this.polls$ = this.isAdmin$.pipe(switchMap(isAdmin => this._debateService.listPolls({
       state: {
         from: isAdmin ? DebateState.draft : DebateState.published,
-        to: DebateState.unpublished
+        to: isAdmin ? DebateState.unpublished : DebateState.published
       },
       limit: 5
     })));
     this.anouncements$ = this.isAdmin$.pipe(switchMap(isAdmin => this._debateService.listAnouncements({
       state: {
         from: isAdmin ? DebateState.draft : DebateState.published,
-        to: DebateState.unpublished
+        to: isAdmin ? DebateState.unpublished : DebateState.published
       },
       limit: 5
     })));
